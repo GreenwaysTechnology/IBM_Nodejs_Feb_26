@@ -1,0 +1,16 @@
+[2026-02-17T06:41:09.713Z] [INFO] Web Server started on Port 3000 
+[2026-02-17T06:41:09.714Z] [INFO] Database Server started on Port 1434 
+[2026-02-17T06:41:09.714Z] [ERROR] Unable to Start Message Broker 
+[2026-02-17T06:41:09.714Z] [WARN] High Memory Usage has been detected 
+[2026-02-17T06:41:32.065Z] [INFO] Web Server started on Port 3000 
+[2026-02-17T06:41:32.068Z] [INFO] Database Server started on Port 1434 
+[2026-02-17T06:41:32.068Z] [ERROR] Unable to Start Message Broker 
+[2026-02-17T06:41:32.068Z] [WARN] High Memory Usage has been detected 
+[2026-02-17T06:41:39.452Z] [INFO] Web Server started on Port 3000 
+[2026-02-17T06:41:39.454Z] [INFO] Database Server started on Port 1434 
+[2026-02-17T06:41:39.454Z] [WARN] High Memory Usage has been detected 
+[2026-02-17T06:41:39.454Z] [ERROR] Unable to Start Message Broker 
+[2026-02-17T06:41:41.426Z] [INFO] Web Server started on Port 3000 
+[2026-02-17T06:41:41.428Z] [INFO] Database Server started on Port 1434 
+[2026-02-17T06:41:41.428Z] [ERROR] Unable to Start Message Broker 
+[2026-02-17T06:41:41.428Z] [WARN] High Memory Usage has been detected 
