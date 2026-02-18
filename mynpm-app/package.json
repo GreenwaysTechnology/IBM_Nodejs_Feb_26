@@ -1,0 +1,25 @@
+{
+  "name": "mynpm-app",
+  "version": "1.0.0",
+  "description": "This is ibm node project",
+  "keywords": [
+    "ibm"
+  ],
+  "license": "ISC",
+  "author": "IBM",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "subramnaianTask": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "lodash": "^4.17.23"
+  },
+  "devDependencies": {
+    "chai": "^6.2.2",
+    "nodemon": "^3.1.11"
+  }
+}
