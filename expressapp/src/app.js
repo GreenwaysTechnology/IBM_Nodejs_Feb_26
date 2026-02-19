@@ -1,30 +1,27 @@
 const express = require('express')
-const fs = require('node:fs')
-const path = require('node:path')
-
-const PORT = 3000
+const bodyParser = require('body-parser')
 const app = express()
 
-function fileLoggerMiddleware(req, res, next) {
-    const logFormat = `[${new Date().toISOString()}] - ${req.method} - ${req.url}\n`
-    fs.appendFileSync(path.join(__dirname, 'access.log'), logFormat)
-    next()
-}
-app.use(fileLoggerMiddleware)
+//register middlware
+app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
-    res.send('Home')
+    res.end('Home')
 })
-app.get('/api/hello', (req, res) => {
-    res.send('Hello')
+
+// app.post('/api/users', (req, res) => {
+//     let data = ''
+//     req.on('data', (chunk) => {
+//         data += chunk
+//     })
+//     req.on('end', () => {
+//         res.send(data)
+//     })
+// })
+app.post('/api/users', (req, res) => {
+    const payload = req.body 
+    res.json(payload)
 })
-app.get('/api/users', (req, res) => {
-    res.send('Users')
-})
-app.post('/api/products', (req, res) => {
-    res.send('products')
-})
-//start server
-app.listen(PORT, () => {
-    console.log(`Express server is Running at ${PORT}`)
+app.listen(3000, () => {
+    console.log('Server running on port 3000')
 })

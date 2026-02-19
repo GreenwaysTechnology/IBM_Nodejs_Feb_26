@@ -672,3 +672,207 @@ app.post('/api/products', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Express server is Running at ${PORT}`)
 })
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+									Types of Middlewares
+...........................................................................................................................................................................................................................................
+1.Application middleware
+2.Router level middleware
+3.Error handling middleware
+4.Third party middleware
+
+1.Application middleware:
+  Middleware is attached on application object
+
+2.Router level middleware
+->writing router:
+ In express except ,request and response , all features including router is middleware.
+ Router is in built middleware.
+
+
+								Error Handling Middleware
+
+const express = require('express')
+const app = express()
+
+const PORT = 3000
+
+app.get('/api/user/:name', (req, res) => {
+    const name = req.params.name
+    if (name === 'admin') {
+        res.send({ message: 'Welcome to Admin' })
+    } else {
+        throw new Error('User Is not valid')
+    }
+})
+
+//start server
+const server = app.listen(PORT, () => {
+    console.log(`Express server is ready! at ${server.address().port}`)
+})
+//server properties
+
+In the above code, the exception is thrown when user is not valid, we have to convert into meaningful  response
+
+Error Handling middleware
+
+What is Error Handling Middleware in Express?
+
+In Express.js, an error-handling middleware is a special middleware function that handles errors across your app.
+
+const express = require('express')
+const app = express()
+
+const PORT = 3000
+
+
+app.get('/api/user/:name', (req, res) => {
+    const name = req.params.name
+    if (name === 'admin') {
+        res.send({ message: 'Welcome to Admin' })
+    } else {
+        throw new Error('User Is not valid')
+    }
+})
+
+//404 Route not found error handler
+//this must be placed before Global error handler
+//it wont take next arg, because it terminates the request and response
+app.use((req, res) => {
+    res.status(404).json({
+        success: false,
+        message: `The route ${req.originalUrl} not Found`,
+    });
+});
+//Error Handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.message);
+    res.status(500).json({
+        success: false,
+        message: err.message
+    });
+})
+//start server
+const server = app.listen(PORT, () => {
+    console.log(`Express server is ready! at ${server.address().port}`)
+})
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+									Chaining middleware
+app.post('/users',authenticate,validateUser,(req,res)=>{
+     //code 
+})
+const middlewareStack = [authenticate,validateUser]
+app.post('/users',middewareStack,(req,res)=>{
+     //code 
+})
+const express = require('express')
+const app = express()
+
+
+app.get('/', (req, res) => {
+    res.end('Home')
+})
+
+//way - 1 chaining
+// app.get('/api/greet', function (req, res, next) {
+//     console.log('chain-1')
+//     next()
+// }, function (req, res, next) {
+//     console.log('chain-2')
+//     next()
+// }, (req, res) => {
+//     res.end('Home')
+// })
+
+//way 2: writting middleware separatly 
+// const chain1 = function (req, res, next) {
+//     console.log('chain-1')
+//     next()
+// }
+// const chain2 = function (req, res, next) {
+//     console.log('chain-2')
+//     next()
+// }
+// app.get('/api/greet', chain1, chain2, (req, res) => {
+//     res.end('Home')
+// })
+
+const chain1 = function (req, res, next) {
+    console.log('chain-1')
+    next()
+}
+const chain2 = function (req, res, next) {
+    console.log('chain-2')
+    next()
+}
+const chains = [chain1, chain2]
+app.get('/api/greet', chains, (req, res) => {
+    res.end('Home')
+})
+
+app.listen(3000, () => {
+    console.log('Server running on port 3000')
+})
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+										 Third party Middlewares
+
+Built in middleware or third party middlewares
+Middlewares are supplied as part of the express team, open source community.
+
+Common Middlewares From Express Team:
+
+body-parser		Parse HTTP request body.
+compression		Compress HTTP responses.
+connect-rid		Generate unique request ID.
+cookie-parser		Parse cookie header and populate req.cookies. See also cookies.
+cookie-session	Establish cookie-based sessions.
+cors				Enable cross-origin resource sharing (CORS) with various options.
+errorhandler		Development error-handling/debugging.
+method-override	Override HTTP methods using header.
+morgan			HTTP request logger.
+multer			Handle multi-part form data.
+response-time		Record HTTP response time.
+serve-favicon		Serve a favicon.
+serve-index		Serve directory listing for a given path.
+serve-static		Serve static files.
+session			Establish server-based sessions (development only).
+timeout			Set a timeout perioHTTP request processing.
+vhost			Create virtual domains.
+
+Every middleware is available as npm dependency.
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+										bodyParser Middleware
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+bodyParser middleware parses incoming payload(json/formdata), converts into "JavaScript Object"
+
+bodyParser can parse different types of incoming data
+
+JSON body parser - into js object
+Raw body parser - into js object
+Text body parser - into js object
+URL-encoded form body parser - into js object
+
+Steps:
+
+1.install middleware
+npm install body-parser
+
+2.configuration as part of application object
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded())
+// parse application/json
+app.use(bodyParser.json())
+
+Use case:You have create products api 
+findAllproducts
+saveProducts
+findbyid
+updateProduct
+removeProduct
+filterProductByCategory
+
+Use array as data store
+Have error Handler too...
