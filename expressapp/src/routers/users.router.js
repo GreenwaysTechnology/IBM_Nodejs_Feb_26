@@ -1,6 +1,12 @@
 const express = require('express')
 const userRouter = express.Router()
 
+//user level middlwares
+userRouter.use((req, res, next) => {
+    console.log('Middleware for all users requests')
+    next();
+})
+
 userRouter.get('/', (req, res) => {
     res.end('Get-Users')
 })

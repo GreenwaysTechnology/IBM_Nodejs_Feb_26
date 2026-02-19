@@ -1,22 +1,30 @@
 const express = require('express')
-// const userRouter = require('./routers/users.router')
-// const productsRouter = require('./routers/products.router')
-const app = express()
-//bind/connect routers with main object
-// app.use('/api/users',userRouter)
-app.use('/api/users', require('./routers/users.router'))
-app.use('/api/products', require('./routers/products.router'))
-app.use('/api/customers', require('./routers/customers.router'))
+const fs = require('node:fs')
+const path = require('node:path')
 
 const PORT = 3000
+const app = express()
 
-//expose apis 
+function fileLoggerMiddleware(req, res, next) {
+    const logFormat = `[${new Date().toISOString()}] - ${req.method} - ${req.url}\n`
+    fs.appendFileSync(path.join(__dirname, 'access.log'), logFormat)
+    next()
+}
+app.use(fileLoggerMiddleware)
+
 app.get('/', (req, res) => {
-    res.end('Home')
+    res.send('Home')
 })
-
-
-const server = app.listen(PORT, () => {
-    console.log(server.address())
-    console.log(`Server running on port ${server.address().port} `)
+app.get('/api/hello', (req, res) => {
+    res.send('Hello')
+})
+app.get('/api/users', (req, res) => {
+    res.send('Users')
+})
+app.post('/api/products', (req, res) => {
+    res.send('products')
+})
+//start server
+app.listen(PORT, () => {
+    console.log(`Express server is Running at ${PORT}`)
 })
