@@ -1427,3 +1427,211 @@ const server = app.listen(PORT, () => {
     console.log(server.address())
     console.log(`Express is running @ ${server.address().port}`)
 })
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+									Express,Typescript,Prisma setup
+
+
+npm install express
+npm install -D typescript ts-node @types/node @types/express 
+npm install @prisma/client
+npm install -D prisma
+
+Tsconfig.json
+{
+  "compilerOptions": {
+    "module": "ESNext",
+    "rootDir": "src",
+    "outDir": "dist",
+    "moduleResolution": "bundler",
+    "target": "ES2023",
+    "strict": true,
+    "esModuleInterop": true,
+    "allowImportingTsExtensions":true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
+
+https://www.prisma.io/docs/prisma-orm/quickstart/sqlite#5-define-your-data-model -  follow this setup
+
+src/app.ts
+
+import express from 'express'
+import { userRouter } from './routers/user.router.ts'
+
+const app = express()
+
+app.use(express.json())
+
+app.use('/api/users', userRouter)
+
+app.get('/', (req, res) => {
+    res.json({ message: 'Home' })
+})
+
+app.listen(3000, () => {
+    console.log("Server is Running")
+})
+routers/user.router.js
+import express from 'express'
+import { prisma } from '../../lib/prisma.ts'
+
+const userRouter = express.Router()
+
+userRouter.get('/', async (req, res) => {
+    try {
+        const users = await prisma.user.findMany();
+
+        res.json(users)
+    }
+    catch (err) {
+        res.status(500).json({ err: err })
+    }
+})
+
+userRouter.post('/', async (req, res) => {
+    try {
+        const newUser = req.body
+        console.log('newUser', newUser)
+        if (newUser) {
+            const user = await prisma.user.create({
+                data: {
+                    email: newUser.email,
+                    name: newUser.name
+                }
+            })
+            res.status(201).location("/api/users/save").json(user)
+        }
+    }
+    catch (err) {
+        res.status(400).json({ message: err })
+
+    }
+})
+
+userRouter.get('/:id', async (req, res) => {
+    const id = Number(req.params.id)
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                //id: id
+                id
+            },
+        })
+        if (user == null) {
+            res.status(401).json({ message: `User not found for ID ${id}` })
+        }
+        res.status(200).json(user)
+    }
+    catch (err) {
+        res.status(400).json({ message: err })
+    }
+})
+userRouter.put('/:id', async (req, res) => {
+    try {
+        const id = Number(req.params.id)
+        const user = req.body
+        //update 
+        const updateUser = await prisma.user.update({
+            where: {
+                id: id
+            },
+            data: {
+                name: user.name,
+                email: user.email
+            }
+        })
+        if (updateUser) {
+            res.status(200).json(updateUser)
+        } else {
+            res.status(401).json({ message: `Update failed for ${id}` })
+        }
+    }
+    catch (err) {
+        res.status(400).json({ message: err })
+    }
+})
+userRouter.delete('/:id', async (req, res) => {
+    const id = Number(req.params.id)
+    try {
+        const user = await prisma.user.findUnique({
+            where: {
+                //id: id
+                id
+            },
+        })
+        if (user == null) {
+            res.status(401).json({ message: `User not found for ID ${id}` })
+        } else {
+            await prisma.user.delete({
+                where: {
+                    id
+                },
+            })
+            res.status(204).end()
+        }
+
+
+    }
+    catch (err) {
+        res.status(400).json({ message: err.message })
+    }
+})
+export { userRouter }
+
+lib/prisma.ts
+import "dotenv/config";
+import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaClient } from "../generated/prisma/client";
+
+const connectionString = `${process.env.DATABASE_URL}`;
+
+const adapter = new PrismaBetterSqlite3({ url: connectionString });
+const prisma = new PrismaClient({ adapter });
+
+export { prisma };
+
+How to run
+
+>npx tsx src/app.ts
+
+package.json
+{
+  "name": "expressprisma",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+    // "dev": "nodemon --exec ts-node src/app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.3.0",
+    "nodemon": "^3.1.14",
+    "prisma": "^7.4.1",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@prisma/adapter-better-sqlite3": "^7.4.1",
+    "@prisma/client": "^7.4.1",
+    "body-parser": "^2.2.2",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1"
+  }
+}
+
+
+
+
