@@ -1,4 +1,4 @@
-										Moleculer
+									Moleculer
 .........................................................................................................................................................................................................................................
 
 What is Moleculer?
@@ -161,3 +161,142 @@ async function main() {
 }
 main()
 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Use case : How to declare multiple services and multiple methods per service?
+
+const { ServiceBroker } = require('moleculer')
+
+const broker = new ServiceBroker()
+
+//create a service: having biz logic
+broker.createService({
+    name: 'hello', //define name of the service
+    actions: {
+        //where biz logic goes
+        sayHello() {
+            return 'Hello Moleculer'
+        }
+    }
+})
+broker.createService({
+    name: 'hai', //define name of the service
+    actions: {
+        //where biz logic goes
+        sayHai() {
+            return 'Hai Moleculer'
+        }
+    }
+})
+broker.createService({
+    name: 'math', //define name of the service
+    actions: {
+        add() {
+            return 10 + 10
+        },
+        multiply() {
+            return 10 * 10
+        }
+    }
+})
+
+async function main() {
+    try {
+        await broker.start()
+        //when broker ready, you can invoke services
+        const hello = await broker.call('hello.sayHello')
+        const hai = await broker.call('hai.sayHai')
+        const add = await broker.call('math.add')
+        const multiply = await broker.call('math.multiply')
+        console.log(hello, hai, add, multiply)
+    }
+    catch (err) {
+        console.log('Broker is Failed to start', err)
+    }
+}
+main()
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+								    Service Modularization
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+Use case: How to isolate services into separate file/folder?
+
+services/greeter.service.js
+
+//service defintion 
+module.exports = {
+    name: 'welcome',
+    actions: {
+        sayHello() {
+            return 'Hello'
+        }
+    }
+}
+services/app.service.js
+const { ServiceBroker } = require('moleculer')
+
+const broker = new ServiceBroker()
+
+//load services
+broker.loadService('./services/greeter.service')
+
+async function main() {
+    try {
+        await broker.start()
+        const res = await broker.call('welcome.sayHello')
+        console.log(res)
+    }
+    catch (err) {
+        console.log('Broker is Failed to start', err)
+    }
+}
+main()
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+										Service Parameters
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+Use case :How to pass params to Service methods? How to read args from the service Method?
+
+Parameters are stored inside special object called "Context"
+
+Context Object:
+
+1.Similar to Broker Object
+2.It has all capacity of Broker object
+3.Context object is used inside service definitions , where ever you require broker
+  Object reference.
+
+context object already created, and its reference is available inside "Service method" as args.
+
+Reading parameters
+
+1.context.params 
+  params are literal object what ever parameter we pass, it will be inside ctx
+
+context.params.variable
+const { ServiceBroker } = require('moleculer')
+
+const broker = new ServiceBroker()
+
+broker.createService({
+    name: 'math',
+    actions: {
+        multiply(ctx) {
+            // const params = ctx.params
+            // return params.a * params * b
+            const { a, b } = ctx.params
+            return a * b
+        }
+    }
+})
+
+
+async function main() {
+    try {
+        await broker.start()
+        const res = await broker.call('math.multiply', { a: 10, b: 20 })
+        console.log(`The Result is ${res}`)
+    }
+    catch (err) {
+        console.log('Broker is Failed to start', err)
+    }
+}
+main()
