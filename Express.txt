@@ -1430,33 +1430,243 @@ const server = app.listen(PORT, () => {
 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 									Express,Typescript,Prisma setup
 
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+											 Express ,Prisma-7 ,SQL - Typescript version
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+Set up Prisma framework:
+............................................
 
-npm install express
-npm install -D typescript ts-node @types/node @types/express 
-npm install @prisma/client
-npm install -D prisma
+Relational databases
 
-Tsconfig.json
+Prerequisites
+1.an existing Node.js project with a package.json
+
+2.Node.js installed on your machine
+
+3.A database server running and a database with at least one table
+  (we are going sqlite db)
+
+create project with all dependency:
+
+ Note: we are going to use in-memory database called SQLite.
+
+1. Create a new project
+Create a project directory and navigate into it:
+
+mkdir expressPrisma
+cd expressPrisma
+
+Initialize a TypeScript project:
+npm init -y
+npm install typescript tsx @types/node --save-dev
+npx tsc --init
+
+2. Install required dependencies
+Install the packages needed for this quickstart:
+
+npm install prisma @types/node @types/better-sqlite3 -D
+npm install @prisma/client @prisma/adapter-better-sqlite3 dotenv
+
+Here's what each package does:
+
+prisma - The Prisma CLI for running commands like prisma init, prisma migrate, and prisma generate
+@prisma/client - The Prisma Client library for querying your database
+@prisma/adapter-better-sqlite3 - The SQLite driver adapter that connects Prisma Client to your database
+@types/better-sqlite3 - TypeScript type definitions for better-sqlite3
+dotenv - Loads environment variables from your .env file
+
+3. Configure ESM support
+Update tsconfig.json for ESM compatibility:
+
+tsconfig.json
 {
   "compilerOptions": {
     "module": "ESNext",
-    "rootDir": "src",
-    "outDir": "dist",
     "moduleResolution": "bundler",
     "target": "ES2023",
     "strict": true,
     "esModuleInterop": true,
-    "allowImportingTsExtensions":true
+    "ignoreDeprecations": "6.0"
+  }
+}
+Update package.json to enable ESM:
+
+{
+  "type": "module"
+}
+4. Initialize Prisma ORM
+You can now invoke the Prisma CLI by prefixing it with npx:
+
+Next, set up your Prisma ORM project by creating your Prisma Schema file with the following command:
+
+>npx prisma init --datasource-provider sqlite --output ../generated/prisma
+
+This command does a few things:
+
+Creates a prisma/ directory with a schema.prisma file containing your database connection and schema models
+Creates a .env file in the root directory for environment variables
+Creates a prisma.config.ts file for Prisma configuration
+
+
+Initialized Prisma in your project
+
+  prisma/
+    schema.prisma
+  prisma.config.ts
+  .env
+  .gitignore
+
+Next, set up your database:
+  1. Configure your DATABASE_URL in prisma.config.ts
+  2. Run prisma db pull to introspect your database.
+
+Then, define your models in prisma/schema.prisma and run prisma migrate dev to apply your schema.
+
+Learn more: https://pris.ly/getting-started
+
+The generated prisma.config.ts file looks like this:
+
+import "dotenv/config";
+import { defineConfig, env } from "prisma/config";
+
+export default defineConfig({
+  schema: "prisma/schema.prisma",
+  migrations: {
+    path: "prisma/migrations",
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  datasource: {
+    url: env("DATABASE_URL"),
+  },
+});
+
+A .env file should be created with the following value:
+
+.env
+
+DATABASE_URL="file:./dev.db"
+
+5. Define your data model
+Open prisma/schema.prisma and add the following models:
+
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
 }
 
-https://www.prisma.io/docs/prisma-orm/quickstart/sqlite#5-define-your-data-model -  follow this setup
+datasource db {
+  provider = "sqlite"
+}
+model User { 
+  id    Int     @id @default(autoincrement()) 
+  email String  @unique
+  name  String?
+} 
+
+6. Create and apply your first migration
+Create your first migration to set up the database tables:
+
+>npx prisma migrate dev --name init
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma\schema.prisma.
+Datasource "db": SQLite database "dev.db" at "file:./dev.db"
+
+SQLite database dev.db created at file:./dev.db
+
+Applying migration `20260223063102_init`
+
+The following migration(s) have been created and applied from new schema changes:
+
+prisma\migrations/
+  └─ 20260223063102_init/
+    └─ migration.sql
+
+Your database is now in sync with your schema.
+
+This command creates the database tables based on your schema.
+
+Now run the following command to generate the Prisma Client:
+
+npx prisma generate
+
+>npx prisma generate
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma\schema.prisma.
+
+✔ Generated Prisma Client (7.4.1) to .\generated\prisma in 32ms
+
+7. Instantiate Prisma Client
+Now that you have all the dependencies installed, you can instantiate Prisma Client. You need to pass an instance of the Prisma ORM driver adapter adapter to the PrismaClient constructor:
+
+lib/prisma.ts
+import "dotenv/config";
+import { PrismaBetterSqlite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaClient } from "../generated/prisma/client";
+
+const connectionString = `${process.env.DATABASE_URL}`;
+
+const adapter = new PrismaBetterSqlite3({ url: connectionString });
+const prisma = new PrismaClient({ adapter });
+
+export { prisma };
+
+8.Testing:
+import { prisma } from "../lib/prisma";
+
+
+async function main() {
+    try {
+        //primsa.
+        const users = await prisma.user.findMany();
+        console.log(users)
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+main()
+ >npx tsx src/app.ts
+[]
+
+if you get empty array, your prisma setup is working fine.
+
+Express with Typescript Setup:
+{
+  "name": "expressprisma",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon --watch 'src/**/*.ts' --exec \"npx tsx\" src/app.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/body-parser": "^1.19.6",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.3.0",
+    "nodemon": "^3.1.14",
+    "prisma": "^7.4.1",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@prisma/adapter-better-sqlite3": "^7.4.1",
+    "@prisma/client": "^7.4.1",
+    "body-parser": "^2.2.2",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1"
+  }
+}
 
 src/app.ts
 
@@ -1598,39 +1808,209 @@ export { prisma };
 How to run
 
 >npx tsx src/app.ts
+or
+>npm run dev
 
-package.json
-{
-  "name": "expressprisma",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-    // "dev": "nodemon --exec ts-node src/app.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "module",
-  "devDependencies": {
-    "@types/better-sqlite3": "^7.6.13",
-    "@types/express": "^5.0.6",
-    "@types/node": "^25.3.0",
-    "nodemon": "^3.1.14",
-    "prisma": "^7.4.1",
-    "ts-node": "^10.9.2",
-    "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
-  },
-  "dependencies": {
-    "@prisma/adapter-better-sqlite3": "^7.4.1",
-    "@prisma/client": "^7.4.1",
-    "body-parser": "^2.2.2",
-    "dotenv": "^17.3.1",
-    "express": "^5.2.1"
-  }
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+										 Authentication and Authorization 
+
+JWT based authentication:
+1.user registration
+2.login
+3.token creation
+4.token validation
+5.Protected route
+
+Project setup:
+>mkdir express-jwt-auth
+>npm init --yes
+>npm i express
+>npm i body-parser
+>npm install nodemon --save-dev
+>npm i jsonwebtoken
+>npm i bcryptjs
+
+
+Step 1: registration:
+const express = require('express')
+const bodyParser = require('body-parser')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs') //password hashing
+
+const app = express()
+const PORT = 3000
+app.use(bodyParser.json())
+
+//Registration; how to initalize the users without actual database.
+const users = [];
+
+//user registration route
+app.post('/register', async (req, res) => {
+    const { username, password } = req.body
+    //hash the password before storing into db
+    const hashedPassword = await bcrypt.hash(password, 10)
+    users.push({ username, password: hashedPassword })
+    console.log(users)
+    res.status(201).json({ message: 'User Registered!' })
+})
+
+app.listen(PORT, (req, res) => {
+    console.log(`Express Server is ready`)
+})
+
+Step 2:
+
+User login and Token Generation:
+const express = require('express')
+const bodyParser = require('body-parser')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs') //password hashing
+
+const app = express()
+const PORT = 3000
+app.use(bodyParser.json())
+
+//Registration; how to initalize the users without actual database.
+const users = [];
+
+//user registration route
+app.post('/register', async (req, res) => {
+    const { username, password } = req.body
+    //hash the password before storing into db
+    const hashedPassword = await bcrypt.hash(password, 10)
+    users.push({ username, password: hashedPassword })
+    console.log(users)
+    res.status(201).json({ message: 'User Registered!' })
+})
+
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body
+    //find user is available in the db or not
+    const user = users.find(u => u.username === username)
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+        return res.status(401).json({ message: 'Invalid Credentials' })
+    }
+    //if valid user, generate token and send that token to user
+    const privateKey = 'your-secret-key'
+    const token = jwt.sign({ username: user.username }, privateKey, { 'expiresIn': '1hr' })
+    res.json({ token })
+})
+
+app.listen(PORT, (req, res) => {
+    console.log(`Express Server is ready`)
+})
+
+Step 3:
+ I am going to create a particular route, i want to protect , that means without login, i should not access that route.
+
+const express = require('express')
+const bodyParser = require('body-parser')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs') //password hashing
+
+const app = express()
+const PORT = 3000
+app.use(bodyParser.json())
+
+const privateKey = 'your-secret-key'
+
+//Registration; how to initalize the users without actual database.
+const users = [];
+
+//user registration route
+app.post('/register', async (req, res) => {
+    const { username, password } = req.body
+    //hash the password before storing into db
+    const hashedPassword = await bcrypt.hash(password, 10)
+    users.push({ username, password: hashedPassword })
+    console.log(users)
+    res.status(201).json({ message: 'User Registered!' })
+})
+
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body
+    //find user is available in the db or not
+    const user = users.find(u => u.username === username)
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+        return res.status(401).json({ message: 'Invalid Credentials' })
+    }
+    //if valid user, generate token and send that token to user
+
+    const token = jwt.sign({ username: user.username }, privateKey, { 'expiresIn': '1hr' })
+    res.json({ token })
+})
+
+//middleware to intercept before access dashboard
+function authicateToken(req, res, next) {
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (!token) {
+        return res.status(401).json({ message: 'Access Denied. No Token Provided' })
+    }
+    jwt.verify(token, privateKey, (err, user) => {
+        if (err) {
+            return res.status(403).json({ message: 'Invalid or Expired Token' })
+        }
+        req.user = user
+        next()
+    })
 }
+
+
+//route to be protected
+app.get('/dashboard', authicateToken, (req, res) => {
+    res.json({ message: `Welcome ${req.user.username}` })
+})
+app.listen(PORT, (req, res) => {
+    console.log(`Express Server is ready`)
+})
+
+Testing:
+
+Register:
+
+POST  localhost:3000/register
+
+Login
+
+POST /localhost:3000/login 
+{
+    "username":"subu",
+    "password": "subu"
+}
+response would be:
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1YnUiLCJpYXQiOjE3NjIxNTUzNDQsImV4cCI6MTc2MjE1ODk0NH0.1Or5uJRJrzZmHUW1MfOrCWQ2IKM8th3GEX9_w8clP7U"
+}
+
+GET localhost:3000/dashboard
+
+Go to Authroization section in POST Man,Find Authorization , BearToken, past the token generated in the login step
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1YnUiLCJpYXQiOjE3NjIxNTUzNDQsImV4cCI6MTc2MjE1ODk0NH0.1Or5uJRJrzZmHUW1MfOrCWQ2IKM8th3GEX9_w8clP7U"
+
+Click send button
+
+Response:
+{
+    "message": "Welcome subu"
+}
+
+if token not supplied
+{
+    "message": "Access Denied. No Token Provided"
+}
+if wrong token
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InN1YnUiLCJpYXQiOjE3NjIxNTUzNDQsImV4cCI6MTc2MjE1ODk0NH0.1Or5uJRJrzZmHUW1MfOrCWQ2IKM8th3GEX9_w8cflP7U
+
+Response wourld be
+{
+    "message": "Invalid or Expired Token"
+}
+
+Task : 
+  You have to register users into db - Prisma -SQLite
+
+
 
 
 
