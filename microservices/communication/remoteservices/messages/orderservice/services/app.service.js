@@ -1,22 +1,18 @@
 const { ServiceBroker } = require('moleculer')
 
 const broker = new ServiceBroker({
-    serializer: "JSON"
+    transporter: "nats://localhost:4222"
 })
 
-//create service
 broker.createService({
-    name: 'products',
+    name: 'orders',
     actions: {
-        findAll() {
-            return new this.Promise((resolve, reject) => {
-                setTimeout(resolve, 1000, [{
-                    id: 1,
-                    name: 'IPhone',
-                    qty: 100,
-                    price: 100000
-                }])
-            })
+        placeorder: {
+            async handler(ctx) {
+                const { orderId, name } = ctx.params
+                ctx.emit('order.created', { id: orderId, name: name })
+                return 'Order Placed'
+            }
         }
     }
 })

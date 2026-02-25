@@ -9,14 +9,12 @@ broker.createService({
     name: 'products',
     actions: {
         findAll() {
-            return new this.Promise((resolve, reject) => {
-                setTimeout(resolve, 1000, [{
-                    id: 1,
-                    name: 'IPhone',
-                    qty: 100,
-                    price: 100000
-                }])
-            })
+            return [{
+                id: 1,
+                name: 'IPhone',
+                qty: 100,
+                price: 100000
+            }]
         }
     }
 })
