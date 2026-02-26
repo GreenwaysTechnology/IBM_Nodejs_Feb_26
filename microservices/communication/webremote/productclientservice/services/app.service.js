@@ -1,25 +1,27 @@
 const { ServiceBroker } = require('moleculer')
 const ApiGateWay = require('moleculer-web')
 
-
-const broker = new ServiceBroker()
-
-//back end service
+const broker = new ServiceBroker({
+    transporter: "TCP"
+})
+//rest api
 broker.createService({
-    name: 'products',
+    name: 'productclientservice',
     actions: {
         list: {
             //meta data
             rest: "GET /",
-            handler(ctx) {
-                return 'Get All Product'
+            async handler(ctx) {
+                const products = await ctx.call('productproviderservice.findAll')
+                return products
             }
         },
         get: {
             rest: "GET /:id",
-            handler(ctx) {
+            async handler(ctx) {
                 const id = ctx.params.id
-                return 'Get Product By Id' + id
+                const product = await ctx.call('productproviderservice.findById', { id: id })
+                return product
             }
         },
         create: {
