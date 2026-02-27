@@ -1,0 +1,4548 @@
+				Nest JS
+.....................................................................................
+
+What is Nest.js?
+   Nest.js is a framework for building efficient, scalable Node.js server-side applications.
+
+Server side apps Types:
+1.Monolith - Old of way building distributed apps
+2.Microservices -Modern way of building distributed apps.
+
+Nest.js can be used to build both applications.
+
+Our focus mostly is Microservice based apps.
+
+Micro service is collection of independant apps talks each other for exchaning data.
+
+Apps  are collection of apis.
+
+In Genernal we can create different types "api"
+
+API means Application programming interface.
+
+API is implemented in many ways.
+
+API is implmented via object oriented models like classes or via functional programming.
+
+Objects encapsulate apis.
+
+API are used to carry out biz logic like "fetching data,saving,updating,deleting,sorting,filtering,"
+
+Objects are hosted on runtimes, the other applications like other apis or userinterface apps like browsers,mobile apps may try to communicate those objects.
+
+Based on Communications(Communication Protocals) apis are classified:
+
+There are many protocals.
+
+HTTP
+HTTP2
+TCP
+UDP
+
+HTTP based APIS(App)
+..................
+1.Web Services
+  1.1.XML based- HTTP With SOAP - SOAP Web Services
+  1.2. Data Independant based - Direct HTTP  with various data formates like    json,xml,html,pdf.... : RestFull Webservices.
+  1.3.Data Independant based - Direct HTTP  with JSON based
+       ...GraphQL
+    GraphQL is alternate to RESTFull WebServices.
+
+2.2.RPC Based API
+ Remote Procedure call.
+APIS are communicated via "TCP" Protocal at low and high level.
+
+RPC based in java
+  =>RMI,EJB...
+RPC language independant
+  =>gRPC is most popular framework for building TCP based apps at low level
+  =>gPRC uses a protocal called "protobuff" Which is HTTP 2 Based. 
+
+Nest.js supports "REST api,GraphQl api, gRPC api" style development.
+...................................................................................
+ 		         Nest.is Development Arch
+
+
+Nest apps can be written in plain js or with object oriented js via Typescript.
+
+				  Nest App
+				     |
+			-------------------------------
+			|                             |
+		      Javascript                   Typescript
+
+
+Note: Nest with Typescript is highly recommended.
+
+Popular Server side(Micro/monolithic) frameworks
+
+1.express
+2.hapi
+3.fastify
+4.moleculer
+5.loopback
+etc....
+ There are lot of  frameworks available in the market but lacks common problems like 
+popular design patterns like MVC,Dependency,Decorator based,Class Based object oriented 
+ You can see all  best features and designpatterns available in the front frameworks
+like angular,react,vue
+ if you take angular is the best framework which incorporates all industry standard design patterns like MVC,dependency injection,class and interface based,decorators based,modularity
+
+What if i want the angular like framework in server side , there was no frame work but now we have that is "Birth of NEST.js"
+
+
+	     Nest.js is replica of Angular in the Server side
+		  Nest inspired from "Angular"
+
+Features of Nest.js:
+
+1.Nest is MVC Framework
+2.Nest is Dependency Injection framework
+3.Nest is Modular framework - ES 6 based modularity and Logical Modularity.
+4.NEST is pure class and interface based
+5.Nest supports Decortors
+6.Nest supports all typescript features
+7.Nest provides infrastructure to build any type of apis 
+8.Nest supports "reactive programming" via rxjs for advanced async stream   based programming 
+....................................................................................
+			 Project Setup- Nest app creations
+...................................................................................
+
+Nest CLI
+  It is command line interface tool that helps to
+
+ =>initialize /create new project
+ =>dev features like hot reloading, bundling for testing
+ =>schematic features to create artifacts -  code generation.
+ =>To create production builds
+ =>To test apps including unit testing,etoe testing..
+
+How to install nest cli?
+
+npm install -g @nestjs/cli
+
+like angular cli
+npm install -g @angular/cli  
+
+How to verify?
+>nest --help
+
+nest --help
+Usage: nest <command> [options]
+
+Options:
+  -v, --version                                   Output the current version.
+  -h, --help                                      Output usage information.
+
+Commands:
+  new|n [options] [name]                          Generate Nest application.
+  build [options] [app]                           Build Nest application.
+  start [options] [app]                           Run Nest application.
+  info|i                                          Display Nest project details.
+  add [options] <library>                         Adds support for an external library to your project.
+  generate|g [options] <schematic> [name] [path]  Generate a Nest element.
+    Schematics available on @nestjs/schematics collection:
+      ┌───────────────┬─────────────┬──────────────────────────────────────────────┐
+      │ name          │ alias       │ description                                  │
+      │ application   │ application │ Generate a new application workspace         │
+      │ class         │ cl          │ Generate a new class                         │
+      │ configuration │ config      │ Generate a CLI configuration file            │
+      │ controller    │ co          │ Generate a controller declaration            │
+      │ decorator     │ d           │ Generate a custom decorator                  │
+      │ filter        │ f           │ Generate a filter declaration                │
+      │ gateway       │ ga          │ Generate a gateway declaration               │
+      │ guard         │ gu          │ Generate a guard declaration                 │
+      │ interceptor   │ itc         │ Generate an interceptor declaration          │
+      │ interface     │ itf         │ Generate an interface                        │
+      │ middleware    │ mi          │ Generate a middleware declaration            │
+      │ module        │ mo          │ Generate a module declaration                │
+      │ pipe          │ pi          │ Generate a pipe declaration                  │
+      │ provider      │ pr          │ Generate a provider declaration              │
+      │ resolver      │ r           │ Generate a GraphQL resolver declaration      │
+      │ service       │ s           │ Generate a service declaration               │
+      │ library       │ lib         │ Generate a new library within a monorepo     │
+      │ sub-app       │ app         │ Generate a new application within a monorepo │
+      │ resource      │ res         │ Generate a new CRUD resource                 │
+      └───────────────┴─────────────┴──────────────────────────────────────────────┘
+
+How to create new Project?
+   
+   By default nest creates "REST api" - Web Services
+
+nest new myfirst-app
+
+my-nest-app> code .
+
+Project Structure:
+  It has lot of files and folders.
+
+readMe.md
+  How to use this project
+
+package.json
+  gives information about this project like 
+ 
+ -basic scripts - run,build,test
+ -Dependency - basic default dependency for the project.
+
+Basic nest dependency:
+
+dev + prod
+ @nest/common
+ @nest/core
+ @nestjs/platform-express
+ rxjs
+
+What is @?
+  private package
+what is nest?
+  nest folder
+what is common or core 
+ subfolder
+
+nest-cli.json
+  provides information /configuration about the project.
+
+node_modules
+   -provides all basic libs and apis
+
+src
+  ->root application folder
+ files
+   -main.ts
+   -app.module.ts
+   -app.controller.ts
+   -app.contoller.spec.ts
+   -app.service.ts
+
+test
+  -contains etoe test configurations
+....................................................................................
+
+How to start app?
+
+There are three mode
+
+1.dev mode
+2.dev mode with watch
+3.prod mode
+
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+....................................................................................
+			Nest js Application Arch
+....................................................................................
+
+Nest Core Concepts:
+
+1.Modularity:
+...........
+There are two types of modularity
+ =>Physical Modularity -  files and folders along with "ES 6 module keywords
+   "export,export default and import"
+
+=>Logical Modularity
+   Code is organized into object called module.
+
+Any distributed apps/user interface apps.
+  App is collection of features like customers,products,payments.
+Each feature is classfied as layers.
+
+Basic Layers in Server side apps:
+................................
+In case if it is WebService(REST Api).
+
+1.Controller    
+   Where We expose apis which to be communicated by other apps like front end or    other apis
+
+2.Service 
+     Where we have biz logic like save,findAll,delete,remove,filtering,sorting
+   Services are communicated by controller.
+
+3.Repository(DAO)
+     This is optional layer now a days, which directly communicates the Datasources
+  like databases via ORM frameworks.
+
+How to organize the features in code?
+
+for eg : order Feature - controllers,services,orm(entities),utilities......
+
+each layer of code is organized phsyically "files and folders" -This is called phsyical modularity.
+
+ order
+  |
+  controllers
+    OrderController.ts
+  services
+    OrderService.ts
+  utilites
+    OrderUtility.ts
+
+According to Nest code style guide
+
+feature based
+ 
+src
+   |
+   order
+    order.controller.ts
+    order.service.ts
+    order.utility.ts
+    order.entity.ts
+    order.controller.spec.ts
+    ...+other files
+   product
+    product.controller.ts
+    product.service.ts
+    product.utility.ts
+    product.entity.ts
+    product.controller.spec.ts
+      
+
+eg:
+
+ src
+   |
+   orders
+     |
+     order.service.ts
+
+export class OrderService {
+     
+  ...apis
+}
+
+ src
+   |
+   orders
+     |
+     order.controller.ts
+
+
+import {OrderService} from './order.service'
+
+export class OrderController {
+     constructor(private orderService:OrderService){}
+}
+.....................................................................................
+  
+2.Nest is Object oriented
+  Nest has been built Typescript rich features like strong typing,class based...
+
+In Nest every thing is Object.
+
+In Nest objects are classified into two category.
+
+1.Nest infra structure object
+2.Domain objects
+
+
+1.Infrastructure object
+   The object which makes up applications..
+ -Module -Logical Modularity
+ -Controllers
+ -Services and Providers
+ -Pipes
+ -Guards
+   
+2.Domain objects
+  Objects which represents data called as models/entity.
+  Domain objects are mostly javascript literal objects /class objects
+
+Module Object:
+   Nest application is encasulated into one single Big Object called "Root Module/App Module".
+
+How to create object?
+
+we need to declare class?
+
+export class OrderController{}
+
+we need to create object 
+  
+  let orderCtrl = new OrderController()
+
+Are we going to create objects like above in Nest?
+     "No"
+
+Nest framework /Nest Runtime (nest ioc engine/container) takes care of "creating Objects and linking objects with objects automatically" which is called "IOC"
+
+Refer
+https://www.martinfowler.com/articles/injection.html
+
+
+How nest understands that this class is infrastructure class?
+
+
+export class OrderController{} 
+
+export class Greeting {}
+
+ We can tell to the nest ioc container via "Decorators"
+
+Nest provides lot of built in Decorators
+
+ @Controller('order')
+ export class OrderController{} 
+
+  when ever nest sees this code, which creates object/initalizes all dependencies.
+
+We will see lot of decorators later
+
+Basic Decorators
+
+1.@Controller -controller
+2.@Injectable - service
+3.@Module-Module Object
+....................................................................................
+				  Primary Objects
+				      and 
+                                Nest BootStrap Process
+.....................................................................................
+
+Nest Application Object:
+
+Every Nest app is encapsulated inside Nest Application.
+Every Nest app has entry point called "main" program.
+
+How to create Application object?
+     By calling NestFactory is class having method called "create" method.
+
+ NestFactory.create => className.method 
+   Here "create" method is static method
+ static methods are called without creating instances
+
+How to create object?
+
+   new ClassName() =>constructor pattern
+   className.createInstance() =>Factory Pattern /Builder Pattern  
+
+create methods take "AppModule" as parameter.
+
+AppModule is object which encapuslate other objects
+
+Every NestJs application "must have one single Root /App Module"
+
+Every AppModule must have one single Controller called "Main Controller/App Controller"
+.....................................................................................
+			  Nest Web Service
+
+By default nest app is encapulsted with "RESTAPI".
+
+if you want to run web service(restapi), you need web server and container.
+
+Nest application also need web container.
+
+By default nest nest applications are running on the top of "express" 
+
+Express provides low level web container features
+
+express: 
+ const express =require('express')
+
+ const app = express()
+
+ app.listen(3000,()=>{});			
+
+  'Nest application can be executed on even in another container too "Fastify" '
+....................................................................................
+
+How to write module?
+
+ Module is logical contaniner which encasulates other objects like controllers,services...other submodules
+
+Whether you create main module or submodule , the syntax remains same.
+
+In nest every thing is object including module,
+ in order to create object we need class.
+
+Step 1: Declare class and you have share the class so that other class or program can use (You have to use es 6 export or export default keyword).
+
+export class AppModule {
+  
+}
+
+Step 2: 
+ we need to create object for the class.
+ you need to say what type of object you create? (domain or infra)
+ In case of infra object we never create object using new Constructor().
+ Nest provides a feature called "IOC container" Which is program , responsiable for 
+ creating objects
+ How to tell to the IOC Container that go and create object?
+   Via "Decorators"
+ in order to create module object "@Module"  decorator is used.
+ 
+import { Module } from "@nestjs/common";
+
+//in order to qualify this is Module object
+@Module()
+export class AppModule {}
+
+Decorator Meta Data:
+.....................
+  The Decorator may or may not take parameters.
+  Parameter value can any type like primtives or object or array.
+@Module parameter:
+  It takes object as parameter.
+
+ "Ioc container not only create objects but also properly link all dependencies"
+
+Decorator Meta Data takes configuration which is information for "Nest" IoC container.
+
+
+//parameters are used to link objects
+@Module({
+  imports: [],
+  controllers: [],
+  providers: []
+})
+imports:[]
+   -All submodules like usermodule,product module
+controllers:
+   -List of controllers part of this module
+providers:
+   -List of services to be created
+....................................................................................
+			 Controllers
+....................................................................................
+
+Controller is also object which is created by Nest IOC container
+
+Step 1: Declare class and export
+export class AppController { 
+  
+}
+Step 2: Decorate as controller
+
+@Controller()
+export class AppController { 
+
+}
+parameter is empty which means root "/" without route.
+
+Step 3: Write http based apis.
+ 
+Nest provides to mark api which to be communicated by http clients using HTTP verbs
+ "GET,POST,DELETE,PUT"
+
+import { Controller, Get } from "@nestjs/common";
+
+@Controller()
+export class AppController {
+  constructor() { }
+  //apis
+  @Get() // http get method
+  public hello(): string {
+    return 'Hello Nest App!'
+  }
+}
+....................................................................................
+			   Service Object
+....................................................................................
+
+Service is layer where we write biz logic.
+
+Service is object , created by Nest ioc container.
+
+Steps:
+1.declare class and export
+
+
+export class AppService {
+  
+}
+
+2.Decorate the service with @Injectable
+
+import { Injectable } from "@nestjs/common";
+
+@Injectable()
+export class AppService {
+  constructor() { }
+  //biz logic
+  public sayHello(): string {
+    return "Hello Nest App!";
+  }
+}
+
+3.Configure the service inside module -AppModule
+
+ providers:[AppService]
+ import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class AppService {
+  constructor() {}
+  //biz logic
+  public sayHello(): string {
+    return 'Hello Nest App!!';
+  }
+}
+...................................................................................
+			How to structure Nest Application
+			    (Nest style guide)
+....................................................................................
+
+Nest Application must be modularizied.
+
+Every Nest application is created based on "features/domain"
+
+A feature module simply organizes the code relevant for a sepcific feature, keeping
+code organized and establilishing clear boundaries.
+This helps us manage complexity and develop with "SOLID" principles, as the size of the project/app team grows..
+
+products,customers,payments,....
+common/util
+
+You have to create sub folder which represents domain /feature
+
+src
+|
+heroes
+  |
+   hero.controller
+   hero.service
+   hero.module
+villains
+  villain.controller
+  villain.service
+  villain.module
+
+shared
+ shared.module.ts
+ filter-text.service.ts
+
+
+2.plan Logical  modularity
+
+=>For each domain, we must have logical modularity - sub module
+
+heroes
+   hero
+   hero-list
+   shared
+   heroes.module.ts
+
+All controllers and services related to that domain, must be injected into that submodule only, not inside main/app module.
+
+rootFolder - src
+   Must contain only root module and root Controller
+
+File structure conventions:
+...........................
+
+->file must follow the domain model.
+   greet
+   user
+   product
+   customer
+->file name must follow like
+  domainname.infraname.ts
+  
+  greet.module | service |controller |guard | pipe .ts | spec.ts
+
+  greet.module.ts
+  greet.controller.ts
+  greet.service.ts
+  greet.controller.spec.ts
+
+->class Names
+   ->Noun Customer,Product,Greeter
+	Customer|Module|Service|Controller
+
+   ->It has to end With infra Objects
+     CustomerModule
+     CustomerController
+     CustomerService
+
+->root files
+   app.controller|module|service
+
+if you have any dto/models/entities and interfaces
+  
+ src
+  |
+   heroes
+     |
+     dto
+       | 
+       hero.dto.ts
+    interfaces
+       hero.interface.ts
+
+
+Eg:
+...
+Greeter :Domain
+
+Step: 0 : create folder
+src/greeter
+Step: 1 Create SubModule
+
+src/greeter/greeter.module.ts
+import { Module } from '@nestjs/common';
+
+@Module({
+  imports: [],
+  controllers: [],
+  providers: [],
+})
+export class GreeterModule {}
+
+Step 2:create Service layer
+import { Injectable } from "@nestjs/common/decorators";
+
+@Injectable()
+export class GreeterService {
+    constructor() { }
+
+    //apis 
+    public sayGreet(): string {
+        return 'Greet to Nest App'
+    }
+
+}
+
+Dependency Configuration:
+src/greeter/greeter.module.ts
+import { Module } from '@nestjs/common';
+import { GreeterService } from './greeter.service';
+
+@Module({
+  imports: [],
+  controllers: [],
+  providers: [GreeterService],
+})
+export class GreeterModule {}
+
+
+Step 3: write controller 
+import { Controller, Get } from "@nestjs/common";
+import { GreeterService } from "./greeter.service";
+
+
+@Controller('api/greeter')
+export class GreeterController {
+    constructor(private greeterService: GreeterService) { }
+
+    //HTTP apis
+    @Get()
+    public sayGreet(): string {
+        return this.greeterService.sayGreet();
+    }
+}
+
+Dependency Configuration:
+import { Module } from '@nestjs/common';
+import { GreeterController } from './greeter.controller';
+import { GreeterService } from './greeter.service';
+
+@Module({
+    imports: [],
+    controllers: [GreeterController],
+    providers: [GreeterService],
+})
+export class GreeterModule { }
+
+Step 4:
+ Configure GreeterModule inside AppModule.
+import { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { GreeterModule } from "./greeter/greeter.module";
+
+
+//in order to qualify this is Module object
+@Module({
+  imports: [GreeterModule], // if AppModule has any submodules as dependency
+  controllers: [AppController], // if AppModule has controller as dependency
+  providers: [AppService]  // if AppModule has Service as Dependency.
+})
+export class AppModule { }
+.....................................................................................
+.....................................................................................
+			   Automation-Code Generation
+.....................................................................................
+
+Steps we have followed:
+
+1.created folder
+2.created files like modules/controllers/services
+3.depedency injection and configuration
+
+It is complex step, in order to avoid this steps manually nest offers a cli command
+
+nest generate
+   
+ generate|g [options] <schematic> [name] [path]  Generate a Nest element.
+
+options:
+  -d, --dry-run                      Report actions that would be taken without writing out results.
+  -p, --project [project]            Project in which to generate files.
+  --flat                             Enforce flat structure of generated element.
+  --no-flat                          Enforce that directories are generated.
+  --spec                             Enforce spec files generation. (default: true)
+  --skip-import                      Skip importing (default: false)
+  --no-spec                          Disable spec files generation.
+  -c, --collection [collectionName]  Schematics collection to use.
+  -h, --help                         Output usage information.
+
+
+
+eg:
+nest g mo users
+
+CREATE src/users/users.module.ts (82 bytes)
+UPDATE src/app.module.ts (313 bytes)
+
+src/users/users.module.ts
+import { Module } from '@nestjs/common';
+
+@Module({})
+export class UsersModule {}
+
+src/app.module.tsimport { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { GreeterModule } from "./greeter/greeter.module";
+import { UsersModule } from './users/users.module';
+
+@Module({
+  imports: [GreeterModule, UsersModule],
+  controllers: [AppController]
+})
+export class AppModule { }
+
+...........
+
+Service:
+nest g s users/user --flat
+CREATE src/users/user.service.ts (88 bytes)
+CREATE src/users/user.service.spec.ts (446 bytes)
+UPDATE src/users/users.module.ts (241 bytes)
+....................................................................................
+			    Building REST API
+...................................................................................	
+
+Controllers
+Routing
+Request Objects
+Resources
+Status and Headers
+Request Parameters
+Request Payload
+..
+
+Controllers:
+  Controllers are responsible for handling client request and generate responses..
+
+Routing:
+  The Routing is mechanism controls which controller receives which requests.
+  Generally a Controller can have more than one Route , different route can perfrom   different actions.
+
+Decorators:
+ @Controller() => without parameter
+ @Controller('users') => root route
+
+HTTP method decorators
+ @Get => get req => GET /rootRoute eg  ; GET /users
+ @Post=> POST req
+ @Put => Update req
+ @Delete => Delete Req.
+
+ All these operations are called "CURD" operations
+
+Eg:
+
+user/user.service.ts
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class UserService {
+  constructor() {}
+  //users api
+  //CURD operations
+  public findAll(): string {
+    return 'users';
+  }
+  public save(): string {
+    return 'save';
+  }
+  public update(): string {
+    return 'update';
+  }
+  public remove(): string {
+    return 'remove';
+  }
+}
+
+user/user.controller.ts
+import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { UserService } from './user.service';
+
+@Controller('users')
+export class UserController {
+    constructor(private userService: UserService) { }
+    // Get /users
+    @Get()
+    findAll(): string {
+        return this.userService.findAll()
+    }
+    @Post()
+    save(): string {
+        return this.userService.save()
+    }
+    @Delete()
+    remove(): string {
+        return this.userService.remove()
+    }
+    @Put()
+    update(): string {
+        return this.userService.update()
+    }
+}
+.....................................................................................
+			   Nest CURD Generator
+...................................................................................
+
+Resource:
+  In RestFull web services, apis are defined or structured as resources.
+  Resource represents domain eg: "UserResource,ProduceResource,CustomerResource"
+
+Why CURD Generator?
+
+ Without Curd generator for a domain/resource,you have to write so many steps
+
+  => Generate module -> nest g mo
+  => Generate a controller -> nest g co 
+  => Generate a service -> nest g s
+  => Generate a generate entity 
+
+ With Curd generator you can do every thing with single command.
+
+Generate a new Resource
+
+ nest g resource 
+   =>creates a module,controller,service,entity class,DTO ,spec files...
+
+eg
+nest g resource products
+? What transport layer do you use? REST API
+? Would you like to generate CRUD entry points? Yes
+CREATE src/products/products.controller.ts (957 bytes)
+CREATE src/products/products.controller.spec.ts (596 bytes)
+CREATE src/products/products.module.ts (268 bytes)
+CREATE src/products/products.service.ts (651 bytes)
+CREATE src/products/products.service.spec.ts (474 bytes)
+CREATE src/products/dto/create-product.dto.ts (33 bytes)
+CREATE src/products/dto/update-product.dto.ts (181 bytes)
+CREATE src/products/entities/product.entity.ts (24 bytes)
+UPDATE package.json (1975 bytes)
+UPDATE src/app.module.ts (707 bytes)
+√ Packages installed successfully.
+.................................................................................
+ .....................................................................................
+			 Status Code,Headers,Responses
+...................................................................................
+
+Status Code :
+   By default Nest returns status code based on http operations
+ Get - 200
+ Post -201
+if you want to change the status, you can use @HttpCode decorator.
+
+import { Controller,Get, HttpCode } from '@nestjs/common';
+
+@Controller('users')
+export class UserController {
+
+    @Get()
+    @HttpCode(200)
+    public findAll():string {
+        return 'Users'
+    }
+    //
+    @Get("list")
+    public listAll():string {
+        return 'user list'
+    }
+}
+.....................................................................................					Headers
+
+There are two types of headers
+
+1.Response header which is sent by server
+2.Request Header which is sent by client to the server
+
+Nest sends default headers automatically.
+
+x-Powered-By:express  -  the underlying web container of nest 
+content-type - the type of value we return
+ based on data type , the contenttype would be changed
+etc...
+
+What if i want to send headers?
+
+it can be custome header, or built in header.
+
+We have @Header decorator
+    @Get()
+    @HttpCode(200)
+    @Header("secret","abc#239a")
+    public findAll(): string {
+        return 'Users'
+    }
+.....................................................................................
+				Response types
+.....................................................................................
+
+Nest automatically parses the content based on the return type
+ Primitives -  string 
+  default would be 
+      content-type text/html; charset=utf-8
+
+  Object
+     if you send object, nest converts into json, adds header 
+   application/json
+
+How to return object?
+
+    @Get("user")
+    public findUser(): any {
+        return {
+            id: 1,
+            name: 'Subramanian'
+        }
+    }
+Here return type is any, we need to change the return type.
+
+users/user.type.ts
+
+export class User {
+    id: number
+    name: string
+}
+
+ @Get("user")
+ public findUser(): User {
+        return {
+            id: 1,
+            name: 'Subramanian'
+        }
+  }		
+
+How to return array of users?
+    @Get("list")
+    public listAll(): Array<User> {
+        return [
+            {
+                id: 1,
+                name: 'Subramanian'
+            },
+            {
+                id: 2,
+                name: 'Ram'
+            },
+            {
+                id: 3,
+                name: 'Arun'
+            }
+        ]
+    }
+.....................................................................................
+				
+				
+Response conversion logic is now is natural way ,Nest interally uses either express or fastify framework.
+
+By default nest uses express as web container, in future if you change from express to fastify, you dont need to change the code.
+
+Coding style:
+  Platform nutural code
+  Lib-Specific code - express
+
+
+Express way of returning code:
+  //express way of returning response
+    @Get("express")
+    public findAllUsingExpress(@Res() response) {
+        return response.status(200).json({ id: 1, name: 'something' })
+    }
+....................................................................................
+			  Request Payload
+...................................................................................
+
+Client sends data to Server:
+............................
+Client can send data various ways
+
+1.Parameters
+   =>Path Parameter
+   =>Query Parameter /Query String
+2.Payload
+   =>Request Body
+
+Path Params  -@Param: -Route Parameters
+.....................
+  Path parameters are used to construct dynamic urls
+
+http://www.mydomain.com/api/users/8
+
+Syntax 1:
+ //path parameters
+  @Get(':id') // which is dynamic value
+  findOne(@Param() params):string{
+      console.log(params)
+     return `${params.id}`;
+  }
+
+Syntax 2:
+   @Get(':id') // which is dynamic value
+    findOne(@Param('id') id: string): string {
+        return `${id}`;
+    }
+
+.....................................................................................
+				Query Parameters
+.....................................................................................
+
+if you want to send Query params
+
+    //GET  /users/1?sort=asc;location=xxx
+    @Get('query')
+    public filterUsers(@Query() queryparams): string {
+        console.log(queryparams);
+        return 'query params';
+    }
+
+Req:
+GET users/query?a=10&b=23
+....................................................................................
+				Payload
+....................................................................................
+
+As of now we have sent data over "URL" 
+  => /users/1
+  => /users/filter?order=asc
+
+if you want to send data over payload - like customers,payments,products as json
+thats where payload comes into picture.
+
+
+@Body - reads data
+req.body -reads data
+
+
+Steps:
+
+1.
+@Post("create")
+public create(){
+   return "user created"
+}
+
+2.read payload
+ @Post("create")
+  public create(@Body() payload){
+        console.log(payload)
+        return "user created"
+    }
+}
+
+3.if you are using ts, you need to create type for incoming payload
+ DTO - Data transfer object
+
+A DTO is an object that defines how the data will be sent over the network.
+We can define DTO schema by using ts interface,class or type keyword.
+Nest recommends only classes because classes are part of es 6 standard, suppose if later if you want to migrate code to js stack it will not be any issues
+
+src/users/create-user.dto.ts
+
+export class CreateUserDto {
+    id: number;
+    name: string;
+    age: number;
+    status: boolean
+}
+  //read body
+    @Post("create")
+    public create(@Body() createUserDto: CreateUserDto) {
+        console.log(createUserDto)
+        return "user created"
+    }
+........
+import { Injectable } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './user.type';
+
+@Injectable()
+export class UserService {
+  constructor() { }
+  //users api
+  //CURD operations
+  public findAll(): Array<User> {
+    return [
+      { id: 1, name: 'Subramanian Murugan', email: 'subu@gmail.com' },
+      { id: 1, name: 'admin', email: 'admin@gmail.com' }
+    ]
+  }
+  public save(user: CreateUserDto): string {
+    console.log(user)
+    return 'save';
+  }
+  public update(): string {
+    return 'update';
+  }
+  public remove(): string {
+    return 'remove';
+  }
+}
+................................................................................				Asynchronicity -Async Respsonse
+..................................................................................
+
+By default node is async,so we can send responses asyncly.
+
+if you talk to database, it may delay...
+
+Styles of async programming:
+1.callbacks
+2.Promises 
+3.Promises with async and await
+4.Rxjs => Nest has integrated rxjs for advanced async operations with streaming           support
+
+
+If response type is String or object or Array - Which is sync call
+if response type is Promise or Rxjs-Observable - Which is async call
+
+eg:
+type:
+
+export class User {
+    id: number;
+    name: string;
+    email?: string
+    status?:boolean
+}
+
+service
+user.service.ts
+import { Injectable } from '@nestjs/common';
+import { filter, Observable, of, map } from 'rxjs';
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './user.type';
+
+//mock data
+const USERS: User[] = [
+  { id: 1, name: 'Subramanian Murugan', email: 'subu@gmail.com',status:true },
+  { id: 2, name: 'admin1', email: 'admin1@gmail.com',status:false  },
+  { id: 3, name: 'admin2', email: 'admin2@gmail.com',status:true  },
+  { id: 4, name: 'admin3', email: 'admin3@gmail.com',status:false  },
+  { id: 5, name: 'admin4', email: 'admin4@gmail.com',status:true  },
+
+];
+@Injectable()
+export class UserService {
+  constructor() { }
+  //users api
+  //CURD operations
+  //sync api
+  public findAll(): Array<User> {
+    return [
+      { id: 1, name: 'Subramanian Murugan', email: 'subu@gmail.com',status:true },
+      { id: 2, name: 'admin1', email: 'admin1@gmail.com',status:false  },
+      { id: 3, name: 'admin2', email: 'admin2@gmail.com',status:true  },
+      { id: 4, name: 'admin3', email: 'admin3@gmail.com',status:false  },
+      { id: 5, name: 'admin4', email: 'admin4@gmail.com',status:true  },
+
+    ];
+  }
+
+  //return promise
+  public findAllAsync(): Promise<Array<User>> {
+    return new Promise((resolve, reject) => {
+      setTimeout(resolve, 100, USERS);
+    });
+  }
+  //return Observable
+  public findAllReactive(): Observable<User[]> {
+    return of(USERS).pipe(map(results => results.filter(user => {
+      return user.status ===true
+    })));
+  }
+  public save(user: CreateUserDto): string {
+    console.log(user);
+    return 'save';
+  }
+  public update(): string {
+    return 'update';
+  }
+  public remove(): string {
+    return 'remove';
+  }
+}
+
+controller:
+import {
+    Controller,
+    Delete,
+    Get,
+    Post,
+    Put,
+    HttpCode,
+    Header,
+    Res,
+    Param,
+    Query,
+    Body,
+} from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserService } from './user.service';
+import { User } from './user.type';
+
+@Controller('users')
+export class UserController {
+    constructor(private userService: UserService) { }
+    // Get /users
+    @Get()
+    @HttpCode(200)
+    @Header('secret', 'A$%#$3434') // custom header
+    findAll(): Array<User> {
+        return this.userService.findAll();
+    }
+
+    //async api 
+    @Get('async')
+    findAllAsync(): Promise<User[]> {
+        return this.userService.findAllAsync();
+    }
+    @Get('reactive')
+    findAllReactive(): Observable<User[]> {
+        return this.userService.findAllReactive();
+    }
+
+    //express way of writting.
+    @Get('express')
+    //@Res will get Express Response Object as dependency
+    public findAllUsingExpress(@Res() response) {
+        //express style code:
+        return response.status(200).json({ id: 1, name: 'something' });
+    }
+    @Get('query')
+    public query(@Query() queryparams): any {
+        console.log(queryparams)
+        return queryparams
+    }
+
+    //path parameters
+    //   @Get(':id') // which is dynamic value
+    //   findOne(@Param() params):string{
+    //       console.log(params)
+    //      return `${params.id}`;
+    //   }
+    @Get(':id') // which is dynamic value
+    findOne(@Param('id') id: string): string {
+        return `${id}`;
+    }
+
+    //return a user
+    @Get('user')
+    getUser(): User {
+        //object is returned
+        //nest converts this object into json.
+        return {
+            id: 1,
+            name: 'Subramanian Murugan',
+            email: 'sasubramanian_md@hotmail.com',
+        };
+    }
+
+    @Post()
+    save(@Body() user: CreateUserDto): string {
+        return this.userService.save(user);
+    }
+    @Delete()
+    remove(): string {
+        return this.userService.remove();
+    }
+    @Put()
+    update(): string {
+        return this.userService.update();
+    }
+}
+.....................................................................................
+			 Handling Errors 
+.....................................................................................
+
+How to handle errors in Nest?
+ Nest comes with built in exception layer which is used for processing all unhandled exceptions across application.
+ Nest provides global exception handler.
+ if exception is not handled in the application code, it is caught by this layer which then automatically sends an appropriate userfriendly responses.
+
+Filters:
+  Filter is a code gets executed automatically when some thing happens
+  Errors/Exceptions are handled by "Filters".
+
+ There is a built in filter provided by Nest to handle global Errors and its type is
+ "HttpException"
+
+Global Error handler throws an error in form of json
+
+  { 
+   "statusCode":500,
+    "message" : "Internal Server error"
+ }
+
+How to throw exception?
+
+simple 
+ @Get('error')
+    doSomething() {
+        throw new HttpException("You are restricted to access this resource", HttpStatus.FORBIDDEN)
+    }
+
+With Biz logic
+  @Get(':id') // which is dynamic value
+    findOne(@Param('id') id: number): string {
+        //biz logic to ensure that id must be greater than 5
+        if (id >= 5) {
+            return `${id}`;
+        } else {
+            throw new HttpException('The id which is requested not found',HttpStatus.NOT_FOUND)
+        }
+
+With Promise:
+
+Controller:
+
+ @Get(':id') // which is dynamic value
+  async findOne(@Param('id') id: number): Promise<any> {
+    //biz logic to ensure that id must be greater than 5
+    // if (id >= 5) {
+    //     return `${id}`;
+    // } else {
+    //     throw new HttpException('The id which is requested not found',HttpStatus.NOT_FOUND)
+    // }
+    try {
+      const res = await this.userService.findById(id);
+      return res;
+    } catch (err) {
+      throw new HttpException(
+        { status: HttpStatus.NOT_FOUND, error: 'something went wrong' },
+        HttpStatus.NOT_FOUND,
+        { cause: err },
+      );
+    }
+  }
+
+Service api:
+ public findById(id: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (id >= 5) {
+        setTimeout(resolve, 100, id)
+      } else {
+        setTimeout(reject, 100, 'Id Not found')
+      }
+    })
+  }
+.....................................................................................
+				Built in Exception Classes
+
+Nest provides lot built in exception classes
+
+HttpException is a base class for all Exception
+
+eg:
+ BadRequestException
+ RequestTimeoutException
+ NotAcceptableException
+ etc........
+
+Apart from these exceptions i want to write Biz Exceptions we call custom exceptions
+
+useridnotfound.exception.ts
+
+import { HttpException } from "@nestjs/common";
+
+
+export class UserIdNotFoundException extends HttpException {
+    constructor(message: string, status) {
+        super(message, status)
+    }
+}
+
+How to use this?
+ @Get(':id') // which is dynamic value
+  async findOne(@Param('id') id: number): Promise<any> {
+    //biz logic to ensure that id must be greater than 5
+    // if (id >= 5) {
+    //     return `${id}`;
+    // } else {
+    //     throw new HttpException('The id which is requested not found',HttpStatus.NOT_FOUND)
+    // }
+    try {
+      const res = await this.userService.findById(id);
+      return res;
+    } catch (err) {
+      // throw new HttpException(
+      //   { status: HttpStatus.NOT_FOUND, error: 'something went wrong' },
+      //   HttpStatus.NOT_FOUND,
+      //   { cause: err },
+      // );
+      throw new UserIdNotFoundException('User id Not Found',HttpStatus.NOT_FOUND)
+    }
+  }
+....................................................................................
+			 Customization of Error Messages
+				(Filters)
+....................................................................................
+
+Generally Error Messages are generated by Nest Exception layer.
+if you want to controll or alter the Exception layer for eg i want to add logging feature or i want different JSON schema based on some biz logic.
+
+Solution is Exception Filters
+
+if you want to alter the flow of exception handling, you need to capture request and response underlying objects
+
+How to write filter?
+
+1.write a class 
+2.implement an interface called "ExceptionFilter"
+
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from "@nestjs/common";
+import { Response, Request } from 'express'
+
+
+@Catch(HttpException)
+export class HttpExceptionFilter implements ExceptionFilter {
+    catch(exception: HttpException, host: ArgumentsHost) {
+        //read host(express/fastify) parameters
+        const ctx = host.switchToHttp();
+        const response = ctx.getResponse<Response>()
+        const request = ctx.getRequest<Request>()
+        const status = exception.getStatus()
+
+        //prepare custom error response 
+        response.status(status)
+        .json({ statusCode: status, timesStamp: new Date().toISOString(), path: request.url })
+
+    }
+}
+
+How to use this filter in your code? How to bind filter?
+
+ @Get('error')
+  @UseFilters(new HttpExceptionFilter())
+  doSomething() {
+    throw new ForbiddenException();
+  }
+.....................................................................................
+			   Middlewares
+....................................................................................
+
+What is Middleware?
+  Middleware is a function which is called before the route handler.
+ 
+Client request----------------->Router---Handles req and send Response
+
+Client request--------Middleware--------->Router---Handles req and send Response
+
+Role of Middlewares:
+1.execute any code
+2.if you want request and response objects
+3.terminate request-response cycle
+4.you can chain the middlewares
+
+Use Cases:
+=>logging
+=>Authentication token processing
+=>location based access
+
+Steps:
+
+1.write a class 
+2.implement an interface called "NestMiddleware"
+3.over ride method called "use"
+4.use method takes "express request,response,next" args.
+
+Note:
+ Middleware can be written for specific routes or global routes.
+
+import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Request, Response, NextFunction } from 'express';
+
+@Injectable()
+export class LoggerMiddleware implements NestMiddleware {
+  use(req: Request, res: Response, next: NextFunction) {
+    //middleware logic : logging
+    console.log(`URL => ${req.url}`);
+    console.log(`Method=> ${req.method}`);
+    console.log(`Date =>`, new Date().toISOString);
+    //you must call next : function  moving to next middleware
+    next();
+  }
+}
+How to activate middlewares?
+
+ Incase of global middleware
+
+Global Middlewares:
+if you want to apply middlewares for every request and every method in the application -  Global Middlewares
+
+Global Middlewares are registeried in the main that means application object.
+
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { GreeterModule } from './greeter/greeter.module';
+import { UsersModule } from './users/users.module';
+import { ProductsModule } from './products/products.module';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
+
+//in order to qualify this is Module object
+@Module({
+  imports: [GreeterModule, UsersModule, ProductsModule], // if AppModule has any submodules as dependency
+  controllers: [AppController], // if AppModule has controller as dependency
+  providers: [AppService], // if AppModule has Service as Dependency.
+})
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    console.log('middleware');
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
+.....................................................................................
+			   Functional middlewares
+
+Functions can be used to create middlewares which is recommended.
+
+import { Request, Response, NextFunction } from 'express';
+
+export function greeter(req:Request,res:Response,next:NextFunction){
+    console.log('......Welcome........')
+    next()
+  }
+  
+How to register multiple middlewares?
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { GreeterModule } from './greeter/greeter.module';
+import { UsersModule } from './users/users.module';
+import { ProductsModule } from './products/products.module';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { greeter } from './middlewares/greeter.middleware';
+
+//in order to qualify this is Module object
+@Module({
+  imports: [GreeterModule, UsersModule, ProductsModule], // if AppModule has any submodules as dependency
+  controllers: [AppController], // if AppModule has controller as dependency
+  providers: [AppService], // if AppModule has Service as Dependency.
+})
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    console.log('middleware');
+    consumer.apply(LoggerMiddleware, greeter).forRoutes('*');
+  }
+}
+..........................*******************************............................
+Configuration
+Database
+MicroServices
+....................................................................................
+				Configuration
+....................................................................................
+
+In Distributed applications(Monolithic or Microservices), we need to isloate some information from the application code
+=>Data connection urls,userName,password
+=>Authentication Tokens
+=>Global messages 
+etc...
+Applications often run in different envs like dev,prod,test,staging env.
+what if i want to run application configuration based on env.
+
+Eg:
+ Web server port is 3000 in dev
+ Web Server port should be 8080 in production env.
+
+In Micro Service Development there is a design pattern : "Cross cutting concerns"
+
+Externalized configuration - 
+    externalize all configuration such as database location and credentials
+...................................................................................
+
+		Nest.js And Micro Service Cross cutting Concerns
+..................................................................................
+
+How to read configuration information in node.js?
+
+=>via env variables
+How to set env variables in os?
+
+In windows
+ =>via windows env settings
+ =>via command line - using SET Command
+In unix/Linux/Mac
+ =>via os env settings
+ =>via command line => using export command
+
+In Node js we can read environment variables via 
+ process.env
+process is object reference which represents Node.js Process
+env is object reference which encapuslate env variables.
+
+How to set env variable in Node repl?
+
+>node
+Welcome to Node.js v18.12.1.
+Type ".help" for more information.
+> process.env.DB_USERNAME="root"
+'root'
+>
+
+How to read it?
+process.env.DB_USERNAME
+'root'
+
+How to use process.env variable inside code?
+
+Steps:
+1.write code
+const express = require('express')
+
+const app = express();
+
+app.get("/users", (req, res) => {
+    res.end('Config app')
+})
+
+app.listen(3000, () => {
+    console.log('Express Server')
+})
+
+2.Set env variables
+E:\session\IBM\2023\March\NestJS\myexpressapp>SET message=Your Message
+
+E:\session\IBM\2023\March\NestJS\myexpressapp>node src/app.js
+
+E:\session\IBM\2023\March\NestJS\myexpressapp>node src/app.js
+Express Server is running at  3000
+^C
+E:\session\IBM\2023\March\NestJS\myexpressapp>SET port=8080
+
+E:\session\IBM\2023\March\NestJS\myexpressapp>node src/app.js
+Express Server is running at  8080
+....................................................................................
+			 Drawbacks of setting env variables in OS
+...................................................................................
+
+=> What if the env settings itself dynamic- via other configuration softwares you want to supply.
+=> if i want to keep the configuration information in a file
+
+Solution : 
+ File based configurations
+
+There is a file extension called ".env" files
+
+Yourapp
+ |
+ src
+ .env #This file must present in the root director of app
+
+steps:
+=> npm install dotenv --save
+=> write .env file
+# .env file
+MESSAGE="Hello"
+PORT="8080"
+NODE_ENV="development"
+=>reading
+
+require('dotenv').config()
+const express = require('express')
+const app = express();
+const message = process.env.MESSAGE || 'Default Message'
+const port = process.env.PORT || 3000
+app.get("/users", (req, res) => {
+    res.end(message)
+})
+
+app.listen(port, () => {
+    console.log('Express Server is running at ', port)
+})
+.....................................................................................
+			Nest and Configurations
+	
+In order to implement distributed configurations in nest, nest offers  a module
+"ConfigModule"  Which exposes the service called "ConfigService" which loads .env file.
+
+How to implement to read config data?
+
+=> nest provides a npm dependency?
+
+ npm install @nestjs/config
+
+@nestjs/config package internally uses "dotenv"
+
+>We need to inject Config Module inside Main Module:
+....................................................
+
+Some Modules may have two methods
+
+=>forRoot 
+     =>Which is used to inject dependency at application level(Global) -App.module
+	app.module.ts
+	eg: imports:[YourModule.forRoot()]
+=>forFeature
+     =>Which is used to inject dependency at specific module level
+      	customers.module.ts
+	  imports:[YourModule.forFeature()]
+  
+
+Step: 1
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+
+@Module({
+  imports: [ConfigModule.forRoot()],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
+
+ConfigModule.forRoot()
+  Will read and parse .env files from the environment and assigned to "process.env".
+  Store the results into an Object called "ConfigService Object"
+
+Step 2: Add Config File in the project root Dir.
+
+Note: 
+ you can add multiple env files, the default file is ".env"
+ ".prod.env"
+ ".staging.env"
+ ".dev.env"
+ ".test.env"
+
+ConfigModule.forRoot({envFilePath:'.dev.env'})
+ConfigModule.forRoot(['.env.dev.local'])
+
+If you want to use the env every where in your app.
+
+ ConfigModule.forRoot({isGlobal:true})
+
+Step 2: Add .env file
+
+config-app
+ |
+.env
+  # .env file
+  WELCOME_MESSAGE="Hello Config"
+
+Step 3: How to read?
+  Via ConfigService Object
+
+ConfigService Object can be injected into "Controlle or Inside another service"
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config/dist';
+
+@Injectable()
+export class AppService {
+  constructor(private configService: ConfigService) {}
+  getHello(): string {
+    return 'Hello World!';
+  }
+}
+Read Data:
+
+this.configService.get<string>('WELCOME_MESSAGE')
+
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config/dist';
+
+@Injectable()
+export class AppService {
+  constructor(private configService: ConfigService) { }
+  getHello(): string {
+    return this.configService.get<string>('WELCOME_MESSAGE')
+  }
+}
+
+What if config key is not present in the .env file?
+ Default value
+
+this.configService.get<string>('WELCOME_MESSAGE', 'How are you?');
+
+
+How to configure Port and access inside main.ts?
+
+import { ConfigService } from '@nestjs/config/dist/config.service';
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+  const port = configService.get('HTTP_PORT') || 3000;
+  await app.listen(port);
+}
+bootstrap();
+....................................................................................
+			  Database Integration
+....................................................................................
+
+Nest js is database independant.
+You can integrate any database including sql and nosql.
+You can select any database based on your client or project req.
+
+			  Basic Arch
+
+				Nest App
+				   |
+			        Database Drivers
+				   |
+				Node Runtime
+				    |
+				 DataBase
+
+Database drivers are just js npm packages.
+
+if you are working in plain js node app or express app.
+  https://expressjs.com/en/guide/database-integration.html#mysql
+
+In in the begining in nodejs database access was very hard because we have to write all database operations in imperative way.
+.....................................................................................
+				ORM Frameworks
+.....................................................................................
+What is ORM?
+  Object Relational Mapping is  a concept to map database operations in object oriented way.
+ Object Relational Mapping (ORM) is a technique used in creating a "bridge" between object-oriented programs and, in most cases, relational databases.
+
+ORM is a spec helps to access database informations in object oriented way.
+
+Implementation of ORM:
+.....................
+ The very first ORM was implemented in "java EJB System".
+ Later the framework was created called "Hibernate"
+ Later the ORM standarized by spec called "JPA" -java Persistency Api.
+ Other Languages and frameworks started introducing orm frameworks..
+
+Node js javascript(typescript) based ORMs:
+.........................................
+ Now a days we have so many frameworks available in the market.
+ Nest js provides abstractions on the top of most popular orm frameworks
+
+Nest js ORM framework:
+......................
+=>MikroORM
+=>Sequelize
+=>TypeORM
+=>Prisma => It is more popular today..
+=>Knex => for suitable for oracle integration
+=>mongoose=>ODM framework fro Mongodb
+
+You can consider 
+=>TypeOrm
+=>Sequelize
+=>Prisma
+=>Mongoose
+..................................................................................
+			 TypeORM implementation
+...............................................................................
+
+Core concepts:
+
+1.Entities
+    Table representation,column Representation,Relationship representations
+2.Repositories
+    It represents apis for database operations - save,select,update,remove...
+
+Implementations:
+.................
+
+1.Database should be up and running.
+ =>mysql database
+How to start database ?
+ =>mysql or postgreSql.
+You can down load mysql or postgresql in you local machine and install , start
+You can download via docker
+ =>docker must have installed
+
+Step 1: Create app:
+>nest new typeorm-app
+
+Step 2: Setup database via docker
+
+typeorm-app
+  |
+ docker-compose.yml
+  version: "3"
+services:
+  mysql:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: test
+    ports:
+      - "3307:3307"
+
+Step 3 :
+ Install typeorm and mysql driver
+
+npm install @nestjs/typeorm typeorm mysql2
+
+Step 4: 
+  TypeOrm integration with our app - Configuration.
+  TypeOrm is available as sub module.
+
+Establishing Connection:
+ Connection string which includes where is the database,what creditentials,database name,location...
+
+app.module.ts
+
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+
+@Module({
+  imports: [TypeOrmModule.forRoot({
+    type: 'mysql',
+    host: 'localhost',
+    port: 3306,
+    username: 'root',
+    password: 'root',
+    database: 'test',
+    autoLoadEntities: true,
+    synchronize: true    ,
+  })],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule { }
+....................................................................................
+Step 5: Interacting with database.
+ 
+Database stores data in the tables
+Table consist of columns and rows
+Database basic operations
+ 
+=>SELECT -Read
+=>INSERT  - CREATE
+=>UPDATE => update
+=>DELETE => remove
+These operations are done by SQL queries
+https://www.mysqltutorial.org/
+
+In order to communicate with database tables orm framworks provides two design patterns
+
+1.Repository pattern
+2.Active Record Pattern
+
+TypeOrm framework supports Repository Pattern.
+
+Core concepts In Repository pattern
+
+ Nest provides decorators to declare entities, repository...
+
+1.Entity
+   Entity is object which represents table
+
+import{Entity } from 'typeorm'
+
+@Entity() 
+export class User{
+
+}  
+ |
+In database 
+ create table user()
+
+Entity Declaration
+
+2.Repository Object
+   For doing query operations
+...
+
+Step 6: Entity,Repository,Service,Controller
+
+nest g resource user
+
+Entity configuration:
+..................
+user/entities/user.entity.ts
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+
+@Entity()
+export class User {
+    //column mapping
+    @PrimaryGeneratedColumn() //primary key with id auto generation
+    id: number
+    @Column()
+    firstName: string
+    @Column()
+    lastName: string
+    @Column()
+    isActive: boolean
+}
+
+DTO mapper
+
+user/dto/create-user-dto.ts
+export class CreateUserDto {
+    firstName: string;
+    lastName: string;
+    isActive?: boolean
+}
+
+Service Layer:
+..............
+ Where we interact with database like save,update,delete,select
+
+Inject Repsitory Object with Entity Mapping
+
+ constructor(@InjectRepository(User) private userRepository: Repository,) { }
+
+
+import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
+
+@Injectable()
+export class UserService {
+  constructor(@InjectRepository(User) private userRepository: Repository) {}
+
+  create(createUserDto: CreateUserDto): Promise<User> {
+    //create user entity object
+    const user = new User();
+    //populate the data which is submitted user
+    user.firstName = createUserDto.firstName;
+    user.lastName = createUserDto.lastName;
+    user.isActive = createUserDto.isActive;
+    //persist data into database
+    return this.userRepository.save(user);
+  }
+
+  findAll(): Promise<User[]> {
+    return this.userRepository.find();
+  }
+
+  findOne(id: number) {
+    return `This action returns a #${id} user`;
+  }
+
+  update(id: number, updateUserDto: UpdateUserDto) {
+    return `This action updates a #${id} user`;
+  }
+
+  remove(id: number) {
+    return `This action removes a #${id} user`;
+  }
+}
+
+Controller:
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { UserService } from './user.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
+
+@Controller('user')
+export class UserController {
+  constructor(private readonly userService: UserService) { }
+
+  @Post()
+  create(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return this.userService.create(createUserDto);
+  }
+
+  @Get()
+  findAll(): Promise<User[]> {
+    return this.userService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(+id, updateUserDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.userService.remove(+id);
+  }
+}
+
+User Module Configuration:
+...........................
+user/user.module.ts
+import { Module } from '@nestjs/common';
+import { UserService } from './user.service';
+import { UserController } from './user.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+
+@Module({
+  //configure all the entities which is part of this module
+  imports: [TypeOrmModule.forFeature([User])],
+  controllers: [UserController],
+  providers: [UserService]
+})
+export class UserModule { }
+....................................................................................
+
+Service:
+import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
+
+@Injectable()
+export class UserService {
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
+  ) { }
+
+  create(createUserDto: CreateUserDto): Promise<User> {
+    //create user entity object
+    const user = new User();
+    //populate the data which is submitted user
+    user.firstName = createUserDto.firstName;
+    user.lastName = createUserDto.lastName;
+    user.isActive = createUserDto.isActive;
+    //persist data into database
+    return this.userRepository.save(user);
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.userRepository.find();
+  }
+
+  async findOne(id: number): Promise<User> {
+    return this.userRepository.findOneBy({ id: id })
+  }
+
+  update(id: number, updateUserDto: UpdateUserDto) {
+    return this.userRepository.update(id, updateUserDto);
+  }
+
+  async remove(id: number): Promise<any> {
+    return this.userRepository.delete(id)
+  }
+}
+
+Controller:
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { UserService } from './user.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
+
+@Controller('user')
+export class UserController {
+  constructor(private readonly userService: UserService) { }
+
+  @Post()
+  create(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return this.userService.create(createUserDto);
+  }
+
+  @Get()
+  findAll(): Promise<User[]> {
+    return this.userService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string): Promise<User> {
+    return this.userService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<any>   {
+    return this.userService.update(+id, updateUserDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string): Promise<void> {
+    return this.userService.remove(+id);
+  }
+}
+
+Entity Mapper
+import { PartialType } from '@nestjs/mapped-types';
+import { CreateUserDto } from './create-user.dto';
+
+export class UpdateUserDto extends PartialType(CreateUserDto) {}
+
+export class CreateUserDto {
+    id?:number
+    firstName: string;
+    lastName: string;
+    isActive?: boolean
+}
+
+Entity:
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm'
+
+@Entity()
+export class User {
+    //column mapping
+    @PrimaryGeneratedColumn() //primary key with id auto generation
+    id: number
+    @Column()
+    firstName: string
+    @Column()
+    lastName: string
+    @Column()
+    isActive: boolean
+}
+UserModule:
+import { Module } from '@nestjs/common';
+import { UserService } from './user.service';
+import { UserController } from './user.controller';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+
+@Module({
+  //configure all the entities which is part of this module
+  imports: [TypeOrmModule.forFeature([User])],
+  controllers: [UserController],
+  providers: [UserService]
+})
+export class UserModule { }
+...............................******************....................................
+			      MicroServices
+....................................................................................
+
+What is Microservices?
+  Microservices - also known as the microservice architecture - is an architectural style that structures an application as a collection of services that are:
+
+Independently deployable
+Loosely coupled
+Organized around business capabilities
+Owned by a small team
+
+Application architecture patterns
+
+1.Monolithic architecture
+2.Microservice architecture
+
+Micro services are collection of design patterns based on those patterns only we build applications.
+
+How to apply these design patterns?
+
+ In order to apply we need implementations.
+
+Since Microservices are common concept which can be used to design application in any programming language.
+
+if you take java language, which offers lot of frameworks
+
+=>Spring boot with Spring Cloud
+=>Vert.x
+=>Quarkus
+etc...
+
+if you take javascript language which also offers lot of frameworks
+
+1.Moleculer
+   Which applies all design patterns
+2.Nest js
+   Which applies only core design patterns.
+
+How to break the applications?
+ Application is decomposed into smaller applications called "services"
+
+Ecommerce:
+ OrderManagement-App
+ CustomerManagement-App
+ InvoiceManagement-App
+ PaymentManagement-App
+ DeliveryManagement-App
+
+How to implement Microservices in Nest?
+
+Nest natively supports Microservice driven development.
+Nest features decorators,rest development,filters,pipes,database integration,configurations all features are supported.
+
+Nest communicates among microservices which offers various protocals such as http,tcp,.
+Microservices(Apps) are connected via transporters.
+Transporters are used to send and receives messages.
+
+How to transmit/exchange data (message) ?
+
+ 1.Request-Response based communication
+ 2.Event -Based communication
+
+GateWay
+  It is another microservice through which only external communication happens to the microservices
+
+Steps:
+
+1.Application 1
+2.Application 2
+
+Use case :
+ I am going to build two applications
+  =>Back End Microservice ->Biz microservice
+  =>Gateway Microservice- For Entry and exit
+
+Flow
+ 
+ Client GET api/something-------->APIGateWay------SendMessage--->BackEnd Microservice
+
+
+Steps:
+ 1.Create UserMicroservice which is tcp based
+
+>nestapps\microservices>nest new usermicroservice
+
+2.install microservice dependencies
+
+>nestapps\microservices> cd usermicroservice
+
+ npm i @nestjs/microservices
+
+By default the app is REST based means that HTTP based app.
+
+>nestapps\microservices>usermicroservice>npm run start:dev
+
+[Nest] 23448  - 30/03/2023, 9:57:18 am     LOG [NestFactory] Starting Nest application...
+[Nest] 23448  - 30/03/2023, 9:57:18 am     LOG [InstanceLoader] AppModule dependencies initialized +10ms
+[Nest] 23448  - 30/03/2023, 9:57:18 am     LOG [RoutesResolver] AppController {/}: +18ms
+[Nest] 23448  - 30/03/2023, 9:57:18 am     LOG [RouterExplorer] Mapped {/, GET} route +2ms
+[Nest] 23448  - 30/03/2023, 9:57:18 am     LOG [NestApplication] Nest application successfully started +2ms
+
+
+in order to convert Microservice app, we need to configure main.ts
+
+NestFactory class provides an api called "createMicroService" method
+
+What type of Microservice (Microservice api) you are creating?
+
+API style:
+ REST API
+ TCP API
+ Grpc API
+
+type MicroserviceOptions = GrpcOptions | TCP options | RedisOptions | NatsOptions | MQttOptions | KafkaOptions | CustomStarategy.
+
+Eg:
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+
+async function bootstrap() {
+  //This app runs on HTTP server
+  // const app = await NestFactory.create(AppModule);
+  //This app runs on TCP server
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    {
+      transport: Transport.TCP,
+      options: {
+        port: 3001,
+      },
+    },
+  );
+  await app.listen();
+}
+bootstrap();
+...................................................................................
+Patterns : How to transmit messages/events(data)
+.................................................
+Microservices understands both messages and events  that means Microservice can process messages and events via patterns.
+
+What is Pattern?
+ A pattern is a plain value for eg: literal object,strings or array.
+ Patterns are seralized(json) and deserialized(js object /primitives) which sent over network.
+
+Actors:
+ Sender
+  Sender could be an microservice app or user interface app sends events or messages
+ Receiver/Consumer
+  Consumer could be another microservice app or user interface app which listens for messages and events.
+
+Styles of Sending and receiving Messages and events:
+....................................................
+
+1.Request -Response Style
+2.Event Based Style
+
+Request-Response:
+=> It is style which is useful when you need to exchange messages between various external services.
+=> We can send message, the receiver receives messages without ack.
+=> It is fire and forget model.
+=> It is not usefull incase if you stream data using streaming protcals/transporters
+   such as kafa,NatsStreaming,rxjs
+
+How Request-Response works?
+ To enable request response message type, Nest creates two logical channels
+
+One is for transimiting the data while other waits for incoming responses.
+
+How to send Message via Request-Response and How to listen for Message?
+
+
+@Controller()
+export class Consumer{
+
+  @MessagePattern({cmd:'process'})
+  public getMessage(data:any){ 
+    //process the incoming data
+  }
+}
+
+Event-based Pattern:
+....................
+if you send data in streaming ways, events based would very usefull.
+You want to simply notify another service that a certain condition has occured in the part system.
+
+While the request-response method is ideal for exchanging messages between services, it is less suitable when message style is event-based when u just want to publish events without waiting for a response.
+
+
+
+@EventPattern('nameoftheevent')
+
+@Controller()
+export class Consumer{
+
+  @EventPattern('user_created')
+  pulic onUserCreated(user:any){
+     //process the events
+  }
+}
+
+..
+import { Controller, Get } from '@nestjs/common';
+import { MessagePattern, EventPattern } from '@nestjs/microservices';
+import { AppService } from './app.service';
+
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
+
+  @Get()
+  getHello(): string {
+    return this.appService.getHello();
+  }
+  @MessagePattern({ cmd: 'process' })
+  public getData(data: any) {
+    console.log(data);
+    return data;
+  }
+  @EventPattern('user_created')
+  public onUserCreated(user: any) {
+    //process the events
+    console.log(user)
+  }
+}
+....................................................................................
+				Client Microservice
+...................................................................................
+The Client Application is application which sends messages and publishes events.
+
+The Client Applications uses "ClientProxy" class used to send and publish events.
+
+The Client Application is application which sends messages and publishes events.
+
+The Client Applications uses "ClientProxy" class used to send and publish events.
+
+ClientProxy has two methods
+
+1. send method - request-response
+2. emit method - event publishing
+
+ClientProxy is built in service class which is part of "ClientsModule".
+
+Before using ClientProxy we need to initalize the ClientsModule in the app.module.ts of client code.
+
+@Module({
+  imports: [
+    ClientsModule.register([{
+      name:'USERSERVICE', //token which is used for identififying services inside 			  ctrl/another service
+      transport:Transport.TCP,{
+        port:3001
+      }
+    }])
+  ]
+
+})
+register:
+  It is method used to establish connection between two microservices
+[]
+  It is array of objects representing microservice transportes
+{name:'UserService'}
+  name property is used as injection token that can be used inside another service/controller
+
+transport:  
+  which transporter is used to transmit messages and events
+options:
+  port: 
+   On which port the other microservice is listening on  
+Steps:
+
+1.create client app
+
+microservices>nest new gatwaymicroservice
+$ cd gatwaymicroservice
+microservices\gatwaymicroservice
+
+2.install microservice dependencies
+npm install @nestjs/microservices --save
+
+
+3.Configure Main Module - app.module.ts
+
+import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+
+@Module({
+  imports: [
+    ClientsModule.register([
+      {
+        name: 'USERSERVICE',
+        transport: Transport.TCP,
+        options: {
+          port: 3001
+        }
+      }
+    ]),
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule { }
+.....................................................................................
+			  Send Message
+....................................................................................
+
+inside service or controller we need do clientProxy di
+
+constructor(@Inject('USERSERVICE') private client:ClientProxy){}
+
+
+
+Event Based:
+this.client.emit('user_created',user)
+
+Message Based:
+const pattern = {cmd:'process'}
+this.client.send(pattern,payload)
+			
+eg:
+import { Controller, Get, Post, Body, Inject } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { AppService } from './app.service';
+import { Observable } from 'rxjs';
+
+@Controller()
+export class AppController {
+  constructor(@Inject('USERSERVICE') private readonly client: ClientProxy) {}
+
+  @Get()
+  getHello(): string {
+    return 'Hello';
+  }
+  //event based
+  @Post()
+  createUser(@Body() createUserRequest: any) {
+    // console.log(createUserRequest);
+    this.client.emit('user_created', createUserRequest);
+    return createUserRequest;
+  }
+
+  @Get("message")
+  accumulate(): Observable<number> {
+    const pattern = { cmd: 'process' };
+    const payload = [1, 2, 3];
+    return this.client.send<number>(pattern, payload);
+  }
+}
+....................................................................................
+			How to use Other Transporter
+...................................................................................
+
+Transporters:
+ TCP,Redis,MQTT,NATS,RabbitMQ,Kafka,gRpc,Your Transpoter
+
+TCP is native transporter which is shipped with nest core.
+
+if you want to other transporter?
+
+Nats:
+
+Steps:
+1.you need nats server to be executed
+2.you need to install redis driver - npm i ioredis
+
+
+Demo:
+
+docker run  --name nats-main -p 4222:4222 -p 6222:6222 -p 8222:8222 nats
+
+UserMicroservice:
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+
+async function bootstrap() {
+  //This app runs on HTTP server
+  // const app = await NestFactory.create(AppModule);
+  //This app runs on TCP server
+  // const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+  //   AppModule,
+  //   {
+  //     transport: Transport.TCP,
+  //     options: {
+  //       port: 3001,
+  //     },
+  //   },
+  // );
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    {
+      transport: Transport.NATS,
+      options: {
+        servers: ['nats://localhost:4222']
+      },
+    },
+  );
+  await app.listen();
+}
+bootstrap();
+
+Gateway MicroService
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+
+@Module({
+  imports: [
+    // ClientsModule.register([
+    //   {
+    //     name: 'USERSERVICE',
+    //     transport: Transport.TCP,
+    //     options: {
+    //       port: 3001,
+    //     },
+    //   },
+    // ]),
+    ClientsModule.register([
+      {
+        name: 'USERSERVICE',
+        transport: Transport.NATS,
+        options: {
+          servers: ['nats://localhost:4222']
+        },
+      },
+    ]),
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule { }
+.....................................................................................	  	    MicroService Non Http Based App With Database Integration
+....................................................................................
+
+Steps:
+1.Generate Resource
+nest generate resource user
+? What transport layer do you use?
+  REST API
+  GraphQL (code first)
+  GraphQL (schema first)
+> Microservice (non-HTTP)
+  WebSockets
+
+Controller:
+import { Controller } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
+import { UserService } from './user.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+
+@Controller()
+export class UserController {
+  constructor(private readonly userService: UserService) { }
+
+  @MessagePattern({cmd:'createUser'})
+  create(@Payload() createUserDto: CreateUserDto) {
+    return this.userService.create(createUserDto);
+  }
+
+  @MessagePattern({ cmd: 'findAllUser' })
+  findAll(data:any) {
+    console.log('')
+    return this.userService.findAll();
+  }
+
+  @MessagePattern({cmd:'findOneUser'})
+  findOne(@Payload() id: number) {
+    return this.userService.findOne(id);
+  }
+
+  @MessagePattern({cmd:'updateUser'})
+  update(@Payload() updateUserDto: UpdateUserDto) {
+    return this.userService.update(updateUserDto.id, updateUserDto);
+  }
+
+  @MessagePattern({cmd:'removeUser'})
+  remove(@Payload() id: number) {
+    return this.userService.remove(id);
+  }
+}
+
+Task for You:
+  Integrate Database layer using TypeOrm 
+.....................................................................................
+				Hybrid Micro Service
+....................................................................................
+
+Microservice implementation in Nest we can do in two ways 
+
+1.Pure api based - like pure http or tcp (non http)
+2.Hybrid style - coimbing http+tcp or http+grpc or http+graphql or tcp+http+graphql
+   Each module can be exposed as separate service
+
+customerManagement - Microservices
+	|
+	customerModule - http apis + non http 
+        ProductsModule - nonhttp
+        PaymentModule- grpc
+
+main.ts
+  const app = await NestFactory.create(AppModule); //http
+
+  //Bind both http and tcp servers
+  app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.TCP,
+    options: {
+      port: 3001,
+    },
+  });
+  //start http and tcp servers
+  
+  await app.startAllMicroservices();
+  //port
+  await app.listen(3003);
+  console.log(`Application is runnning on ${await app.getUrl()}`);
+
+....................................................................................
+
+@MessagePattern
+@EventPattern 
+  Must be part of only controllers
+
+src/math
+   math.module.ts
+import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { MathController } from './math.controller';
+import { MathService } from './math.service';
+
+@Module({
+  imports: [ClientsModule.register([{ name: 'MATH_SERVICE', transport: Transport.TCP }])],
+  controllers: [MathController],
+  providers: [MathService]
+})
+export class MathModule { }
+
+ math.controller.ts
+import { Controller, Get, Inject } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { MessagePattern } from '@nestjs/microservices';
+import { MathService } from './math.service';
+
+//Rest Controller + tcp controller
+@Controller('math')
+export class MathController {
+    constructor(@Inject("MATH_SERVICE") private readonly client: ClientProxy, private mathService: MathService) { }
+
+    @Get("sum")
+    public execute() {
+        const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        const pattern = { cmd: 'sum' }
+        return this.client.send<number>(pattern, numbers)
+    }
+
+    @MessagePattern({ cmd: 'sum' })
+    public sum(data: number[]) {
+        return this.mathService.sum(data)
+    }
+
+}
+
+math.service.ts
+import { Injectable } from '@nestjs/common';
+import { MessagePattern } from '@nestjs/microservices';
+
+@Injectable()
+export class MathService {
+
+    public sum(data: number[]) {
+        return (data || []).reduce((a, b) => a + b)
+    }
+
+}
+.....................................................................................
+			 Microservice Communication
+.....................................................................................
+
+How do services in a microservice architecture communicate?
+
+Use RPI for inter-service communication.
+The client uses a request/reply-based protocol to make requests to a service.
+
+Two types of Communications:
+
+1.Remote Proceducer Invocation
+2.Messaging
+
+RPI Implementations/RPI technologies:
+.....................................
+1.REST
+2.TCP
+3.gRPC
+4.Apache Thrift
+
+1.REST
+  HTTP Based Microservice implementations.
+  This is common microservice implementations.
+We have implemented REST based Microservices in Nest
+
+2.RPC - Remote Procedure call
+  TCP
+  gRpc
+
+ Remote Procedure call,the remote methods are called with help of TCP protcal.
+  We have implemented TCP Based Microservices in Nest.
+
+The advanced version of RPC-  gRPC
+  gRPC is advanced RPI based framework for building inter service communications
+...........................&&&&&&&&&&&.............................................
+			 gRpc - googleRpc
+..................................................................................... 
+ 			Internet based RPC/RPI - HTTP Driven RPC
+.....................................................................................
+
+WebServices:
+ It is a remote program, having api , communicated via http protocal , transfer data
+
+SOAP Based:
+ it is similar to legacy rpc but communicated over soap over http,transfer xml based data.
+
+REST: 
+ It is also RPC but only works with http, carries multiple data format,json was understood light models
+
+
+SOA Architectures:
+ based on xml distributed programming
+
+.....................................................................................
+			MicroService Representations
+.....................................................................................
+Micro services are represented / Microservices are designed based on communications
+
+1.Remote Procedure Invocation
+2.Messaging
+
+RPI Technologies:
+1.REST
+2.RPC-(gRPC)
+3.Apache Thrift
+
+
+1.REST
+  HTTP Based Microservice implementations.
+  This is common microservice implementations.
+We have implemented REST based Microservices in Nest
+
+2.RPC
+   Remote Procedure call,the remote methods are called with help of TCP protcal.
+  We have implemented TCP Based Microservices in Nest.
+
+The advanced version of RPI(RPC) -  gRPC
+  gRPC is advanced RPI based framework for building inter service communications
+
+............................................................................................. 
+ 			Internet based RPC/RPI - HTTP Driven RPC
+.............................................................................................
+
+WebServices:
+ It is a remote program, having api , communicated via http protocal , transfer data
+
+SOAP Based:
+ it is similar to legacy rpc but communicated over soap over http,transfer xml based data.
+
+REST: 
+ It is also RPC but only works with http, carries multiple data format,json was understood light models
+
+
+SOA Architectures:
+ based on xml distributed programming
+..............................................................................................
+				Microservices and API Design
+.............................................................................................
+
+1.REST API 
+   -easy to use/develop
+ -what if my app is using multiple languages
+    RPC
+
+Drawbacks of REST/HTTP1.1 protocal.
+
+REST arch built on the top of "http 1.1" protocal version.
+
+
+1.multi request-reponse cycle
+   in every req-res - tcp connection is created
+
+2.Headers are plain text which takes lot of space
+
+● HTTP is stateless
+	○ Headers are sent in every request
+	○ Carries info like Cookie
+	○ Plain text - relatively large in size
+	○ Can not be compressed
+
+3.Serialization & Deserialization
+   since http1.1 send always text, not binary which are speedy.
+
+4.API Contract
+   There is no api contract (strongly typed) which makes confussion among applications.
+
+5.Client SDK
+   There is no proper client sdk to process http messages.
+...................................................................................
+				Google and http Protocal
+.....................................................................................
+
+Google started a project called SPDY (pronounced "speedy") is a deprecated open-specification communication protocol that was developed primarily at Google for transporting web content.[1] SPDY manipulates HTTP traffic
+
+later spdy was opensourced named "HTTP/2"
+
+SPDY became the basis for HTTP/2 specification
+
+Why?
+-tcp multiplxing -  non blocking arch
+-Binary
+-Header Compression
+-Flow Control -Streaming
+............................................................................................
+			RPC - Framework alternate to REST based design
+............................................................................................
+
+Google has  started working on RPC systems more than 15 years from now , for service communicaitons.
+
+Project Name 
+Stubby
+● RPC Framework from Google
+● 15 years
+● 10 billions reqs / sec!!!!
+● Cross-platform
+........................................
+● Tightly coupled with infrastructure
+............................................................................................
+				gRPC 
+
+● Developed at Google
+● Inspired by Stubby
+● Released in 2016
+● Adopted by
+	○ Netflix
+	○ Microsoft
+● Belongs to CNCF
+...........................................................................................
+				Why gRPC
+
+HTTP2 is default.
+○ Binary
+○ Multiplexing
+○ Flow-control
+● Non-blocking, Streaming bindings
+● Protobuf
+○ Strict Typing
+○ DTO
+○ Service definitions
+○ Language-agnostic
+○ Auto-generated bindings for multiple languages
+● Great for mobile apps
+..............................................................................................
+			ProtoBuff-Protocol Buffers
+..............................................................................................
+
+
+● IDL (interface description language) for API
+● Platform neutral
+● Language neutral
+● Serializing/Deserializing structured data
+● Very Fast / Optimized for interservices communication
+● Provides client libraries automatically for many languages!
+○ Java
+○ C++
+○ Javascript
+○ Go
+○ Ruby
+○ C#
+○ Python
+
+.....................................................................................
+			Steps to Build gRPC- api style services
+.............................................................................................
+
+1.Design Api using ProtoBuff language
+
+2.Pick your language for writing services - java,js(node - any framework(nest))
+   2.1. write service
+   2.2. write servers
+   2.3. clients to communicate services via server.
+.....................................................................................
+ProtoBuff IDL program:
+......................
+
+1.protobuff file has to be saved - serviceName.proto
+
+2.proto is strongly typed , that means we have to specifify the type
+
+3.Field Numbers:
+  -which is used by proto interal representation to identify the fields like in REST-Json
+is identified by "key": "value" - "id" : 1
+
+ each field in the message definition has a unique number.
+
+ These field numbers are used to identify your fields in the message binary format, and should not be changed once your message type is in use. Note that field numbers in the range 1 through 15 take one byte to encode
+ncluding the field number and the field's type (you can find out more about this in Protocol Buffer Encoding). Field numbers in the range 16 through 2047 take two bytes. So you should reserve the numbers 1 through 15 for very frequently occurring message elements. Remember to leave some room for frequently occurring elements that might be added in the future.
+
+The smallest field number you can specify is 1, and the largest is 229 - 1, or 536,870,911
+
+
+person.proto
+
+//proto buff language version ; if dont, default version is 2
+syntax = "proto3";
+
+//type definition ; in java which is represented as entity class
+message Person {
+  //fields of the entity
+  // string is type
+  //name is field(variable)
+  //1 is identifier
+  string name = 1;
+  int32 age = 2;
+}
+....................................................................................
+				ProtoBuff Lanaguage				
+.....................................................................................
+Message Fundamentals
+Service Definitions
+
+  
+.....................................................................................			Complex Types-Composit Types
+.....................................................................................
+proto files
+
+person.proto
+
+//proto buff language version ; if dont, default version is 2
+syntax = "proto3";
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+}
+
+//type definition ; in java which is represented as entity class
+message Person {
+  //fields of the entity
+  // string is type
+  //name is field(variable)
+  //1 is identifier
+  string name = 1;
+  int32  age = 2;
+  Address address = 3;
+
+}
+.....................................................................................
+			Collecition types - repeated - arrays
+
+//proto buff language version ; if dont, default version is 2
+syntax = "proto3";
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+}
+
+//type definition ; in java which is represented as entity class
+message Person {
+  //fields of the entity
+  // string is type
+  //name is field(variable)
+  //1 is identifier
+  string name = 1;
+  int32  age = 2;
+  Address address = 3;
+  repeated string skills = 4;
+
+}
+....................................................................................
+.............................................................................................
+					Map-Type
+............................................................................................
+
+//proto buff language version ; if dont, default version is 2
+syntax = "proto3";
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+}
+
+//type definition ; in java which is represented as entity class
+message Person {
+  //fields of the entity
+  // string is type
+  //name is field(variable)
+  //1 is identifier
+  string name = 1;
+  int32  age = 2;
+  Address address = 3;
+  repeated string skills = 4;
+  map<string,string> values=5;
+
+}
+.....................................................................................
+					Enum
+
+//proto buff language version ; if dont, default version is 2
+syntax = "proto3";
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+}
+
+enum Feedback {
+  UNKNOWN = 0; //default value
+  GOOD = 1 ;
+  BAD = 2;
+  VERYGOOD = 3;
+}
+
+//type definition ; in java which is represented as entity class
+message Person {
+  //fields of the entity
+  // string is type
+  //name is field(variable)
+  //1 is identifier
+  string name = 1;
+  int32  age = 2;
+  Address address = 3;
+  repeated string skills = 4;
+  map<string, string> values = 5;
+  Feedback feeback = 6;
+
+}
+............................................................................................
+				 Default Values
+............................................................................................
+int32 / any number type ->0
+bool ->false
+string ->empty string
+enum ->first value
+repeated -> empty list
+map ->wrapper / empty map
+
+.........
+				Proto and Modularity
+............................................................................................
+			
+src/main/proto/common/address.proto
+
+
+syntax = "proto3";
+//option
+option java_multiple_files = true;
+//package
+option java_package = "com.wipro.models";
+
+message Address {
+  string street = 1;
+  string city = 2;
+  string state = 3;
+}
+
+................................................................................
+			Modualrity and Proto Buff
+
+src/main/proto/person.proto
+
+
+//proto buff language version ; if dont, default version is 2
+syntax = "proto3";
+
+//link other proto files
+import "common/address.proto";
+
+enum Feedback {
+  UNKNOWN = 0; //default value
+  GOOD = 1 ;
+  BAD = 2;
+  VERYGOOD = 3;
+}
+
+//type definition ; in java which is represented as entity class
+message Person {
+  //fields of the entity
+  // string is type
+  //name is field(variable)
+  //1 is identifier
+  string name = 1;
+  int32  age = 2;
+  Address address = 3;
+  repeated string skills = 4;
+  map<string, string> values = 5;
+  Feedback feeback = 6;
+
+}
+
+..........................................................................................
+				Unary Service
+............................................................................................
+
+Steps:
+
+1.define proto service definition
+
+
+//proto buff language version ; if dont, default version is 2
+syntax = "proto3";
+//message types
+message HelloRequest{
+  string name = 1;
+  repeated string hobbies = 2;
+}
+message HelloResponse {
+  string greeting = 1;
+}
+//service definition
+service  GreetingService {
+  //define rpc operation: Unary: Request-Reply - Fire and Forget -  HTTP - GET
+  rpc greeting(HelloRequest) returns (HelloResponse);
+}
+....................................................................................
+
+                                   Server Streaming
+
+Use case : money withdrawal , i want to with draw money 10$ each of total 40$
+					
+//proto buff language version ; if dont, default version is 2
+syntax = "proto3";
+
+message  BalanceCheckRequest{
+  int32 account_number = 1;
+}
+message Balance {
+  int32 amount = 1;
+}
+//WithDrawRequest
+
+message WithDrawRequest {
+  int32 account_number = 1;
+  int32 amount = 2;
+}
+//Money to be withdrawn
+message Money {
+  int32 money = 1;
+}
+
+//Bank service
+service BankService {
+  //unary
+  rpc getBalance(BalanceCheckRequest) returns (Balance);
+  //server streaming
+  rpc withdraw(WithDrawRequest) returns(stream Money);
+
+}
+....................................................................................
+			 Client Streaming
+....................................................................................
+                         
+				
+//proto buff language version ; if dont, default version is 2
+syntax = "proto3";
+
+message  BalanceCheckRequest{
+  int32 account_number = 1;
+}
+message Balance {
+  int32 amount = 1;
+}
+//WithDrawRequest
+
+message WithDrawRequest {
+  int32 account_number = 1;
+  int32 amount = 2;
+}
+//Money to be withdrawn
+message Money {
+  int32 money = 1;
+}
+
+//Bank service
+service BankService {
+  //unary
+  rpc getBalance(BalanceCheckRequest) returns (Balance);
+  //Client streaming
+  rpc withdraw(stream WithDrawRequest) returns(Money);
+
+}
+....................................................................................
+			BiDirectional  Streaming
+....................................................................................
+                         
+bankservice.proto
+				
+//proto buff language version ; if dont, default version is 2
+syntax = "proto3";
+package "bank"
+
+message  BalanceCheckRequest{
+  int32 account_number = 1;
+}
+message Balance {
+  int32 amount = 1;
+}
+//WithDrawRequest
+
+message WithDrawRequest {
+  int32 account_number = 1;
+  int32 amount = 2;
+}
+//Money to be withdrawn
+message Money {
+  int32 money = 1;
+}
+
+//Bank service
+service BankService {
+  //unary
+  rpc getBalance(BalanceCheckRequest) returns (Balance);
+  //bidirectional streaming
+  rpc withdraw(stream WithDrawRequest) returns(stream Money);
+
+}
+.....................................................................................
+.....................................................................................
+			 How to Build gRpc Microservices
+.....................................................................................
+
+Req:
+1.proto file
+2.gRpc Server
+3.Deploy gRpc apps on gRpc server
+4.Client apps can start communicating with grpc clients.
+
+Steps :
+
+1. create nest app
+   nest new grpcmicroservice
+
+2.install packages
+  
+  npm install @nestjs/microservices
+  npm i --save @grpc/grpc-js @grpc/proto-loader --save
+
+3.nest-cli.json
+    will have proto buff file dedection configuration.
+{
+  "compilerOptions": {
+    "assets": [
+      "**/*.proto"
+    ],
+    "watchAssets": true
+  }
+}
+
+4.Create MicroService gRpc:
+  Note: It can be hybrid app or With another app(http) 
+ 
+import { NestFactory } from '@nestjs/core';
+import { MicroserviceOptions } from '@nestjs/microservices';
+import { AppModule } from './app.module';
+import { grpcClientOptions } from './grpc-client.options';
+
+async function bootstrap() {
+  /**
+   * This example contains a hybrid application (HTTP + gRPC)
+   * You can switch to a microservice with NestFactory.createMicroservice() as follows:
+   *
+   * const app = await NestFactory.createMicroservice<MicroserviceOptions>(AppModule, {
+   *  transport: Transport.GRPC,
+   *  options: {
+   *    package: 'hero',
+   *    protoPath: join(__dirname, './hero/hero.proto'),
+   *  }
+   * });
+   * await app.listen();
+   *
+   */
+  const app = await NestFactory.create(AppModule);
+  app.connectMicroservice<MicroserviceOptions>(grpcClientOptions);
+
+  await app.startAllMicroservices();
+  await app.listen(3001);
+  console.log(`Application is running on: ${await app.getUrl()}`);
+}
+bootstrap();
+.....................................................................................
+			Grpc Server and Grpc Client Apps
+....................................................................................
+
+Server:
+
+Steps
+1.nest new grpcserver
+2.
+ npm i --save @grpc/grpc-js @grpc/proto-loader
+ npm i --save @nestjs/microservices
+
+3.nest-cli.json
+{
+  "compilerOptions": {
+    "assets": ["**/*.proto"],
+    "watchAssets": true
+  }
+}
+4.src/hero/hero.proto
+
+// hero/hero.proto
+syntax = "proto3";
+
+package hero;
+
+service HeroesService {
+  rpc FindOne (HeroById) returns (Hero) {}
+}
+
+message HeroById {
+  int32 id = 1;
+}
+
+message Hero {
+  int32 id = 1;
+  string name = 2;
+}
+
+Types:
+src/hero/interfaces
+
+hero-by-id.interface.ts
+export interface HeroById {
+  id: number;
+}
+src/hero/hero.interface.ts
+export interface Hero {
+  id: number;
+  name: string;
+}
+src/hero/hero.service.ts
+
+import { Observable } from "rxjs";
+import { HeroById } from "./hero-by-id.interface";
+import { Hero } from "./hero.interface";
+
+export interface HeroService {
+    findOne(data: HeroById): Observable<Hero>;
+}
+
+Service Defintion:
+
+import { Controller } from '@nestjs/common';
+import { GrpcMethod } from '@nestjs/microservices';
+import { Metadata, ServerUnaryCall } from '@grpc/grpc-js';
+import { HeroById } from './interfaces/hero-by-id.interface';
+import { Hero } from './interfaces/hero.interface';
+import { HeroService } from './interfaces/hero.service';
+
+
+@Controller()
+export class HeroesController {
+  @GrpcMethod('HeroesService', 'FindOne')
+  findOne(data: HeroById, metadata: Metadata, call: ServerUnaryCall<any, any>): Hero   {
+    const items = [
+      { id: 1, name: 'John' },
+      { id: 2, name: 'Doe' },
+    ];
+    return items.find(({ id }) => id === data.id);
+  }
+}
+
+src/hero/hero.module.ts
+import { Module } from '@nestjs/common';
+import { HeroesController } from './hero.controller';
+
+@Module({
+  imports: [],
+  controllers: [HeroesController],
+})
+export class HeroModule { }
+
+src/app.module.ts
+import { Module } from '@nestjs/common';
+import { HeroModule } from './hero/hero.module';
+
+@Module({
+  imports: [HeroModule],
+})
+export class AppModule {}
+
+src/main.ts
+import { NestFactory } from '@nestjs/core';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { AppModule } from './app.module';
+import { join } from 'path'
+
+async function bootstrap() {
+  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
+    AppModule,
+    {
+      transport: Transport.GRPC,
+      options: {
+        package: 'hero',         
+        protoPath: join(__dirname, 'hero/hero.proto'),
+      },
+    },
+  );
+  await app.listen();
+  console.log(`Grpc Server is Running... `);
+}
+bootstrap();
+
+..................................................................................
+
+Grpc Client App : HTTP App:
+...........................
+
+Steps
+1.nest new grpcclient
+2.
+ npm i --save @grpc/grpc-js @grpc/proto-loader
+ npm i --save @nestjs/microservices
+
+3.nest-cli.json
+{
+  "compilerOptions": {
+    "assets": ["**/*.proto"],
+    "watchAssets": true
+  }
+}
+4.src/hero/hero.proto
+
+// hero/hero.proto
+syntax = "proto3";
+
+package hero;
+
+service HeroesService {
+  rpc FindOne (HeroById) returns (Hero) {}
+}
+
+message HeroById {
+  int32 id = 1;
+}
+
+message Hero {
+  int32 id = 1;
+  string name = 2;
+}
+
+5.main.ts -HTTP server
+
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  await app.listen(3001);
+}
+bootstrap();
+
+6.src/hero/hero.proto
+
+// hero/hero.proto
+syntax = "proto3";
+
+package hero;
+
+service HeroesService {
+  rpc FindOne (HeroById) returns (Hero) {}
+}
+
+message HeroById {
+  int32 id = 1;
+}
+
+message Hero {
+  int32 id = 1;
+  string name = 2;
+}
+Note: The file should match exactly same as server.
+
+6.Types:
+src/hero/interfaces
+
+hero-by-id.interface.ts
+export interface HeroById {
+  id: number;
+}
+src/hero/hero.interface.ts
+export interface Hero {
+  id: number;
+  name: string;
+}
+src/hero/hero.service.ts
+
+import { Observable } from "rxjs";
+import { HeroById } from "./hero-by-id.interface";
+import { Hero } from "./hero.interface";
+export interface HeroService {
+    findOne(data: HeroById): Observable<Hero>;
+}
+
+7.src/hero/grpc-client.options : Server Configuration
+
+import { ClientOptions, Transport } from '@nestjs/microservices';
+import { join } from 'path';
+
+export const grpcClientOptions: ClientOptions = {
+  transport: Transport.GRPC,
+  options: {
+    package: 'hero', // ['hero', 'hero2']
+    protoPath: join(__dirname, './hero/hero.proto'),
+  },
+};
+
+7.src/hero/hero.module.ts
+import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+// import { grpcClientOptions } from '../grpc-client.options';
+import { HeroController } from './hero.controller';
+import { join } from 'path';
+import { grpcClientOptions } from 'src/grpc-client.options';
+
+@Module({
+  imports: [
+    ClientsModule.register([
+      {
+        name: 'HERO_PACKAGE',
+        ...grpcClientOptions,
+      },
+    ]),
+  ],
+  controllers: [HeroController],
+})
+export class HeroModule { }
+
+src/hero/hero.controller.ts
+import { Controller, Get, Inject, OnModuleInit, Param } from '@nestjs/common';
+import {
+  ClientGrpc
+} from '@nestjs/microservices';
+import { Observable } from 'rxjs';
+import { HeroById } from './interfaces/hero-by-id.interface';
+import { Hero } from './interfaces/hero.interface';
+import { HeroService } from './interfaces/hero.service';
+
+@Controller('hero')
+export class HeroController implements OnModuleInit {
+  private readonly items: Hero[] = [
+    { id: 1, name: 'John' },
+    { id: 2, name: 'Doe' },
+  ];
+  private heroService: HeroService;
+
+  constructor(@Inject('HERO_PACKAGE') private readonly client: ClientGrpc) { }
+
+  onModuleInit() {
+    this.heroService = this.client.getService<HeroService>('HeroesService');
+    this.heroService.findOne({ id: 1 }).subscribe(x => console.log(x));
+  }
+
+  @Get(':id')
+  getById(@Param('id') id: string): Observable<Hero> {
+    return this.heroService.findOne({ id: +id });
+  }
+
+
+}
+app.module.ts
+
+import { Module } from '@nestjs/common';
+import { HeroModule } from './hero/hero.module';
+
+@Module({
+  imports: [HeroModule],
+})
+export class AppModule {}
+
+...................................................................................
+
+Open Two cmd prompt
+grpcserverclient\grpcclient>npm run start:dev
+grpcserverclient\grpcserver>npm run start:dev
+
+open browser/postman
+http://localhost:3001/hero/1
+
+Response:
+{
+id: 1,
+name: "John"
+}
+..............&&&&&&&&&&&&&&&&&&&&&&&&&&&&&..........................................
+				GraphQL
+....................................................................................
+
+What is GraphQL?
+  GraphQL is alternate for REST API.
+
+REST api desigened based "fixed api model"
+
+GET  /api/customers // List of customers
+  id
+  name
+  address
+    city
+    state
+    zipcode
+
+GET  /api/customers?query=zipcode
+
+  id
+  name
+  address
+    zipcode
+
+What if i want to query customer information based on city..
+ I need to write a new logic inside code.
+
+How to design api based on "dynamic biz req"?
+
+  GraphQL is a language created to build "api's" to make biz req very dynamic.
+
+Graph + QL =>
+   What is Graph?
+      Connnected nodes - tree model which represents data 
+            =>Connected Objects
+      QL means Query language , is programming language to access data from the graph.
+
+GraphQL is api language.
+  Implementation can be programming language netural, platform netural.
+
+Graphql with java
+Graphql with javascript	
+
+How to begin with GraphQL?
+
+GraphQL offers two languages
+ =>Server side
+     Server side developers "who build graphql apis"
+
+GraphQL Schema Language -Server side
+
+ =>Client Side
+    Client side develoepers "who consume/access graphql apis"
+  GraphQL Query Language -Client server
+....................................................................................
+			 GraphQL apps based on "IDL"
+....................................................................................
+
+How to begin writing graphql server side apps?
+
+1.write graphql schema file
+   which explains objects and fields and relationship
+   which explains apis specification - CURD
+
+2.Write program in any language- javascript/typescript on node platform- nest framework
+  
+Nest js offers infrastructure to build graphql apis.
+Nest js uses "Apollo Server"
+
+.....................................................................................
+
+Nest and GraphQl Develoment?
+
+Nest supports two programming model
+=>Schema first model
+   schema design and api implementation
+=>code first model
+  write api first and generate schema out of it.
+
+
+1.Schema first model:
+....................
+
+How to design schema?
+
+fileName must be saved
+
+ "fileName.graphql"
+ "customer.graphql"
+
+Schema contains two parts
+
+1.Type definition
+   =>Define entity and fields.
+
+book.graphql
+
+type Book {
+  title: String!
+  author: Author
+}
+type Author {
+  name: String
+  books: [Book] 
+}
+Schema Language Basics:
+
+
+SDL Core concepts:
+
+Every Schema which starts with Root Type- Schema
+Schema is just Object
+
+General Syntax
+type typeName {
+  field:Type       ===>  Class Book { title:string }
+}
+
+eg:
+type Book {
+ title:String
+ isbn:String
+}
+Core Type:
+
+Operations Type
+
+type schema {
+  query:Query
+  mutation:Mutation
+  subscription:Subscription
+}
+Query
+
+type Query {
+  greet:String
+  name:String
+}
+
+Data Types:
+1.scallar types : Primitives
+
+1.Int -  32 bit signed integer
+2.String - UTF-8 char sequence
+3.Boolean - true or  false
+4.Float - singed double precision floating point value
+5.ID - which represents uniquie identifer, used to fetch object ,
+
+Fields:
+ variables
+Each Field must have type
+Advanced Types
+
+1.enum - special scalar that is holding particular set of allowed values.
+
+
+2.Custom Type/Complex Type
+
+type Query {
+   peron:Person
+}
+//complex Type
+
+type Person {
+  id:ID
+  name:String
+  city:String
+  age:Int
+}
+
+type Book {
+ title:String
+ isbn:String
+ author:Author
+}
+type Author {
+ name:String
+}
+.............................................................................
+
+....................................................................................
+List/Collection/Array fields:
+
+books:[Book] //collection type -array type
+
+
+type Book {
+ title:String
+ isbn:String
+ author:Author
+}
+type Author {
+ name:String
+ books:[Book]
+}
+..................................................................................
+Field Nullability:
+ By default any field accept null.
+Sometimes i dont want to allow null - !
+
+type Author {
+ name:String! #cant return null
+ books:[Book]
+}
+type Author {
+ name:String
+ books:[Book!]
+}
+////////////////////////////////////////////////////////////////////////////////////
+Operations Type: =>Service classes class Bookservice { booksApi(){} authors(){}}
+
+//read Only
+type Query {
+  books:[Book]
+  authors:[Author]
+}
+
+Client Side:
+query GetBooksAndAuthors {
+   books {
+	title
+   }
+   authors {
+	name
+   }
+}
+
+Write and Read Operations
+
+type Mutation {
+  addBook(title:String,author:String):Book
+}
+
+Client Side :Request
+mutation CreateBook {
+   addBook(title:'Nest js in Action',author:'X'){
+      title
+      author{
+	name
+      }
+   }
+  
+}
+
+			  Parametermized api
+
+
+type Query{
+  filterByCity(city:String):Person
+}
+
+type Person {
+  id:ID
+  name:String!
+  city:String
+  age:Int
+}
+				How to return collection /List of Data
+
+
+type Query{
+  findAllPersons():[Person]!
+}
+
+type Person {
+  id:ID
+  name:String!
+  city:String
+  age:Int
+}
+				 Interfaces
+
+Interface is an abstract common type which can be reused by other types
+
+interface Human {
+  id:ID
+  name:String!
+  city:String
+  age:Int
+}
+
+type Player implements Human {
+  id:ID
+  name:String!
+  city:String
+  age:Int
+  teams:[Team]
+}
+
+type Employee implements Human {
+  id:ID
+  name:String!
+  city:String
+  age:Int
+  
+}
+........................................................................................
+				Union Types
+
+A variable can hold possible list of types
+
+union userId = String | Int
+
+............................................................................................
+				Input Types
+
+This is very usefull in mutations for getting input 
+
+input Person {
+ name:String
+ city:String
+}
+..................................................................................
+
+.....................................................................................
+			 NestJS GraphQl Applications
+.....................................................................................
+NestJs provides abstraction on the top of the libs and frameworks like - Apollo and Mercurius Servers
+
+Apollo is based Express container where Mercurius is based on fasitfy container.
+
+Nest js provides powerfull typescripts features to enbable fast development of graphql apps.
+
+Nest js offers a module called "@nestjs/graphql" with driver @nestjs/apollo
+
+
+How to test Graphql apps?
+
+ -GraphQl client apps
+    -tools -  playground - web interface tool distribtued as part of core appllo               servers
+
+
+....................................................................................
+			 NestJS GraphQl Applications
+.....................................................................................
+NestJs provides abstraction on the top of the libs and frameworks like - Apollo and Mercurius Servers
+
+Apollo is based Express container where Mercurius is based on fasitfy container.
+
+Nest js provides powerfull typescripts features to enbable fast development of graphql apps.
+
+Nest js offers a module called "@nestjs/graphql" with driver @nestjs/apollo
+
+How to create graphQl application?
+
+The GraphQL Apps can be built using two methods
+
+1.the code first
+2.the schema first
+
+From the code, you can generate schema files
+
+1.the code first
+  In the code first approach, you use decorators and TypeScript classes to generate the corresponding GraphQL schema. This approach is useful if you prefer to work exclusively with TypeScript and avoid context switching between language syntaxes.
+
+2.the schema first
+ In the schema first approach, the source of truth is GraphQL SDL (Schema Definition Language) files. SDL is a language-agnostic way to share schema files between different platforms. Nest automatically generates your TypeScript definitions (using either classes or interfaces) based on the GraphQL schemas to reduce the need to write redundant boilerplate code.
+
+
+How to test Graphql apps?
+
+ -GraphQl client apps
+    -tools -  playground - web interface tool distribtued as part of core appllo               servers
+
+steps:
+
+1.create graphql app
+
+nest new graphqlserverapp
+
+2.install depdenencies
+
+# For Express and Apollo (default)
+$ npm i @nestjs/graphql @nestjs/apollo graphql apollo-server-express
+
+# For Fastify and Apollo
+# npm i @nestjs/graphql @nestjs/apollo graphql apollo-server-fastify
+
+# For Fastify and Mercurius
+# npm i @nestjs/graphql @nestjs/mercurius graphql mercurius fastify
+
+How to configure GraphQL server?
+
+
+App.module.ts
+
+import { Module } from '@nestjs/common';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+
+@Module({
+  imports: [
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      debug: false,
+      playground: true,
+    }),
+  ],
+})
+export class AppModule {}
+
+>npm run start:dev
+
+When you start the server with this configuration
+
+    throw Error(
+            ^
+Error: Apollo Server requires either an existing schema, modules or typeDefs
+    at ApolloServer.constructSchema (E:\session\IBM\2022\nov\nestapps\microservices\graph
+
+What we need?
+  We need either sdl file or TypeDefs
+
+Schema First Approach:
+
+src/cats/
+  cats.graphql - schema file
+
+type Query {
+  cats: [Cat]
+  cat(id: ID!): Cat
+}
+
+type Mutation {
+  createCat(createCatInput: CreateCatInput): Cat
+  
+}
+
+type Subscription {
+  catCreated: Cat
+}
+
+type Owner {
+  id: Int!
+  name: String!
+  age: Int
+  cats: [Cat!]
+}
+
+type Cat {
+  id: Int
+  name: String
+  age: Int
+  owner: Owner
+}
+"""
+Test comment
+"""
+input CreateCatInput {
+  name: String
+  age: Int
+}
+
+cats.module.ts
+import { Module } from "@nestjs/common";
+@Module({
+    imports: [],
+    providers: []
+})
+export class CatsModule {
+
+}
+
+app.module.ts
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { CatsModule } from './cats/cats.module';
+
+@Module({
+  imports: [
+    CatsModule,
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      debug: false,
+      playground: true,
+      typePaths: ['./**/*.graphql'],
+    //  transformSchema: (schema) => upperDirectiveTransformer(schema, 'upper'),
+      installSubscriptionHandlers: true,
+    }),
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
+
+main.ts
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  await app.listen(3000);
+}
+bootstrap();
+................
+
+npm run start:dev
+
+open browser and lanuch playground(Client Graphql testing tool,like post man)
+
+http://localhost:3000/graphql
+.....................................................................................
+
+Resolvers:
+  Resolvers are api implmentations which provides GraphQL Operations
+    Query,Mutations,Subscriptions
+
+@Resolver('Cats')
+export class CatsResolver{
+
+ @Query()
+ pubic async cats(){
+      //logic
+ }
+
+}
+
+import { ParseIntPipe } from '@nestjs/common';
+import { Args, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
+import { PubSub } from 'graphql-subscriptions';
+import { Cat } from '../graphql-schema';
+import { CatsService } from './cats.service';
+import { CreateCatDto } from './dto/create-cat.dto';
+
+const pubSub = new PubSub();
+
+@Resolver('Cat')
+export class CatsResolver {
+  constructor(private readonly catsService: CatsService) {}
+
+  @Query('cats')
+  async getCats() {
+    return this.catsService.findAll();
+  }
+
+  @Query('cat')
+  async findOneById(
+    @Args('id', ParseIntPipe)
+    id: number,
+  ): Promise<Cat> {
+    return this.catsService.findOneById(id);
+  }
+
+  @Mutation('createCat')
+  async create(@Args('createCatInput') args: CreateCatDto): Promise<Cat> {
+    const createdCat = await this.catsService.create(args);
+    pubSub.publish('catCreated', { catCreated: createdCat });
+    return createdCat;
+  }
+
+  @Subscription('catCreated')
+  catCreated() {
+    return pubSub.asyncIterator('catCreated');
+  }
+}
+
+Service Class: which holds biz logic of app 
+ Here we use array of data: later we can replace with database.
+
+cat.service.ts
+import { Injectable } from '@nestjs/common';
+import { Cat } from '../graphql-schema';
+
+@Injectable()
+export class CatsService {
+    private readonly cats: Array<Cat & { ownerId?: number }> = [
+        { id: 1, name: 'Cat1', age: 5, ownerId: 1 },
+        { id: 2, name: 'Cat2', age: 5, ownerId: 1 },
+        { id: 3, name: 'Cat3', age: 5, ownerId: 1 },
+        { id: 4, name: 'Cat4', age: 5, ownerId: 1 },
+        { id: 5, name: 'Cat5', age: 5, ownerId: 1 }
+    ];
+
+    create(cat: Cat): Cat {
+        cat.id = this.cats.length + 1;
+        this.cats.push(cat);
+        return cat;
+    }
+
+    findAll(): Cat[] {
+        return this.cats;
+    }
+
+    findOneById(id: number): Cat {
+        return this.cats.find(cat => cat.id === id);
+    }
+}
+
+Type classes.
+Schema Mapper classes:
+
+src/graphql-schema.ts
+
+export class CreateCatInput {
+    name?: Nullable<string>;
+    age?: Nullable<number>;
+  }
+  
+  export abstract class IQuery {
+    abstract cats():
+      | Nullable<Nullable<Cat>[]>
+      | Promise<Nullable<Nullable<Cat>[]>>;
+  
+    abstract cat(id: string): Nullable<Cat> | Promise<Nullable<Cat>>;
+  }
+  
+  export abstract class IMutation {
+    abstract createCat(
+      createCatInput?: Nullable<CreateCatInput>,
+    ): Nullable<Cat> | Promise<Nullable<Cat>>;
+  }
+  
+  export abstract class ISubscription {
+    abstract catCreated(): Nullable<Cat> | Promise<Nullable<Cat>>;
+  }
+  
+  export class Owner {
+    id: number;
+    name: string;
+    age?: Nullable<number>;
+    cats?: Nullable<Cat[]>;
+  }
+  
+  export class Cat {
+    id?: Nullable<number>;
+    name?: Nullable<string>;
+    age?: Nullable<number>;
+    owner?: Nullable<Owner>;
+  }
+  
+  type Nullable<T> = T | null;
+
+DTO:
+
+cats/dto/create-cat-dto.ts
+import { CreateCatInput } from "src/graphql-schema";
+
+export class CreateCatDto extends CreateCatInput {
+  age: number;
+}
+
+src/cats/cats.module.ts
+import { Module } from '@nestjs/common';
+import { CatsResolver } from './cats.resolver';
+import { CatsService } from './cats.service';
+
+@Module({
+  providers: [CatsService, CatsResolver],
+})
+export class CatsModule {}
+....................................................................................
+Steps:
+
+1.You need to define schema definition file
+2.You need to define Mapper classes for Each Type in schema
+3.You need to write graphql implementation class -Resolver
+4.YOu need to write Service class which will  interact with database.
+5.You need to test GraphQl Using GraphQl playground tool
+
+....................................................................................
+
+
+How to test graphql apps:
+
+ YOu have to know "Graphql query language syntax"
+ https://graphql.org/learn/queries/
+
+basic operation 
+
+Input:
+query {
+  cats {
+    name
+  }
+}
+
+Response:
+{
+  "data": {
+    "cats": [
+      {
+        "name": "Cat1"
+      },
+      {
+        "name": "Cat2"
+      },
+      {
+        "name": "Cat3"
+      },
+      {
+        "name": "Cat4"
+      },
+      {
+        "name": "Cat5"
+      },
+      {
+        "name": "mycat"
+      },
+      {
+        "name": "yourcat"
+      }
+    ]
+  }
+}
+
+Mutation:
+mutation createCateOperations($ep: CreateCatInput) {
+  createCat(createCatInput: $ep) {
+    name
+    id
+  }
+}
+Parameter
+{
+  "ep": {
+    "name": "yourcat",
+    "age":46
+  }
+}
+
+if you want test subscription, you need client program which supports streaming.
