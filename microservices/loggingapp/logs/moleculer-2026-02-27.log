@@ -1,0 +1,14 @@
+[2026-02-27T05:02:25.479Z] INFO  desktop-kaufcr7-31084/BROKER: Moleculer v0.14.35 is starting...
+[2026-02-27T05:02:25.480Z] INFO  desktop-kaufcr7-31084/BROKER: Namespace: <not defined>
+[2026-02-27T05:02:25.480Z] INFO  desktop-kaufcr7-31084/BROKER: Node ID: desktop-kaufcr7-31084
+[2026-02-27T05:02:25.480Z] INFO  desktop-kaufcr7-31084/REGISTRY: Strategy: RoundRobinStrategy
+[2026-02-27T05:02:25.481Z] INFO  desktop-kaufcr7-31084/REGISTRY: Discoverer: LocalDiscoverer
+[2026-02-27T05:02:25.489Z] INFO  desktop-kaufcr7-31084/BROKER: Serializer: JSONSerializer
+[2026-02-27T05:02:25.497Z] INFO  desktop-kaufcr7-31084/BROKER: Validator: FastestValidator
+[2026-02-27T05:02:25.499Z] INFO  desktop-kaufcr7-31084/BROKER: Registered 13 middleware(s).
+[2026-02-27T05:02:25.512Z] INFO  desktop-kaufcr7-31084/REGISTRY: '$node' service is registered.
+[2026-02-27T05:02:25.513Z] INFO  desktop-kaufcr7-31084/REGISTRY: 'user' service is registered.
+[2026-02-27T05:02:25.513Z] INFO  desktop-kaufcr7-31084/$NODE: Service '$node' started.
+[2026-02-27T05:02:25.513Z] INFO  desktop-kaufcr7-31084/USER: Service 'user' started.
+[2026-02-27T05:02:25.513Z] INFO  desktop-kaufcr7-31084/BROKER: ✔ ServiceBroker with 2 service(s) started successfully in 6ms.
+[2026-02-27T05:02:36.694Z] INFO  desktop-kaufcr7-31084/USER: handler is called

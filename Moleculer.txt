@@ -2523,7 +2523,7 @@ async function main() {
 }
 main()
 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
-  					&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+  			&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 											Microservices Advanced Design patterns
 ************************************************************************************************************************************************************
 											  Service Discovery and Registry
@@ -2696,3 +2696,463 @@ How to implement load balancing?
 2.Each service is going to run in different nodes. Each node must be identified quickly.
   Node name should not be hardcoded.
   In Genernal Node Id would be  - computername_processId		
+
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+										Fault tolerance  Design pattern
+...........................................................................................................................................................................................................................................
+
+In Microservices, services are talking each other, while talking there are possibility.
+
+A. Callee Service may slow than expected duration by caller. - Slow calls
+
+B. Callee may throw error , then caller gets exception which will be propagated across the app
+   which may stop the entire app.
+
+How to deal / solve the problem of above one ?
+
+   Via Reliability pattern, we can solve the Problem.
+
+Moleculer Provides Fault tolerance , through which we can solve
+ 
+
+-Timeout
+
+    Service-X  is calling Service-Y
+
+1.You may get Result(succees/errors) "on time".
+
+2.YOu may not get any thing beyond time.
+
+3.Timeout defines deadlines for services
+
+
+eg:
+   Service-X expects result in 500 ms from Service-Y, What if Service-Y not able to give result within that time line , Service-Y will throw TimeoutException.
+
+Now you need to decide how to Handle TimeoutException?
+
+ -throw exception and handle it
+ -You can have alternate fallback api to return result to the caller.
+
+
+Any fault tolerance algorithm in Moleculer can be configured in two places
+
+1.At broker level
+const broker = new ServiceBroker({
+    requestTimeout: 5 * 1000 // in milliseconds
+});
+
+2.At service level
+
+broker.call("posts.find", {}, { timeout: 3000 });
+
+
+services/timeoutmain.service.js
+
+
+const { ServiceBroker } = require('moleculer');
+
+const broker = new ServiceBroker({
+    transporter: "TCP",
+    requestTimeout: 5 * 1000 // in milliseconds
+
+});
+broker.createService({
+    name: 'main',
+    actions: {
+
+        begin: {
+            // Call the 'getCachedResult' method when error occurred
+            fallback: "getCachedResult",
+            async handler(ctx) {
+                const { a, b, timeout } = ctx.params
+                let res = await ctx.call('remotetimeout.calculate', { a, b }, {
+                    timeout: timeout
+                })
+                console.log(`Result Got From Remote Services ${res}`)
+            }
+        }
+
+    },
+    methods: {
+        getCachedResult() {
+            return `From the Cache 0`
+        }
+    }
+})
+async function init() {
+    await broker.start()
+    broker.repl()
+}
+init();
+
+services/remotetimeout.service.js
+const { ServiceBroker } = require('moleculer');
+
+const broker = new ServiceBroker({
+    transporter: "TCP",
+    requestTimeout: 5 * 1000 // in milliseconds
+});
+
+broker.createService({
+    name: 'remotetimeout',
+    actions: {
+        async calculate(ctx) {
+            const { a, b } = ctx.params
+            return new Promise((resolve, reject) => {
+                setTimeout(resolve, 3000, `${a + b} - ${broker.nodeID} `)
+            })
+        }
+    }
+})
+
+async function init() {
+    await broker.start()
+    broker.repl()
+}
+init();
+
+call main.begin --a 10 --b 20 --timeout 5000
+>> Call 'main.begin' with params: { a: 10, b: 20, timeout: 5000 } with meta: { '$repl': true } with options: {}
+Result Got From Remote Services 30 - laptop-r2tggfdl-13828
+
+call main.begin --a 10 --b 20 --timeout 2000
+>> Call 'main.begin' with params: { a: 10, b: 20, timeout: 2000 } with meta: { '$repl': true } with options: {}
+[2022-05-27T09:43:13.543Z] WARN  laptop-r2tggfdl-13612/BROKER: Request 'remotetimeout.calculate' is timed out. { requestID: '6e3a1abe-432d-41eb-9311-ee9026e207e5', nodeID: 'laptop-r2tggfdl-13828', timeout: 2000 }
+[2022-05-27T09:43:13.544Z] WARN  laptop-r2tggfdl-13612/MAIN: The 'main.begin' request is failed. Return fallback response. { requestID: '6e3a1abe-432d-41eb-9311-ee9026e207e5', err: "Request is timed out when call 'remotetimeout.calculate' action on 'laptop-r2tggfdl-13828' node." }
+>> Execution time:2s
+>> Response:
+'From the Cache 0'
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+										Caching
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+
+
+if api is called for data which calls internally database or external end points.
+
+if api returns the same data again and again, why should i execute queries or calling third party api
+
+Caching provides high level performance.
+
+Without Caching:
+const { ServiceBroker } = require('moleculer')
+
+const broker = new ServiceBroker({
+    logger: "Console"
+})
+
+broker.createService({
+    name: 'user',
+    actions: {
+        list: {
+            handler(ctx) {
+                this.logger.info('handler is called')
+                return [{
+                    id: 1, name: 'Subramanian'
+                },
+                {
+                    id: 2, name: 'Murugan'
+                }]
+            }
+        }
+    }
+})
+
+async function main() {
+    try {
+        await broker.start()
+        broker.repl()
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+main()
+
+output
+>> Call 'user.list' with params: {} with meta: { '$repl': true }
+[2024-07-20T06:14:47.170Z] INFO  desktop-kaufcr7-9376/USER: handler is called
+>> Execution time:3ms
+>> Response:
+[ { id: 1, name: 'Subramanian' }, { id: 2, name: 'Murugan' } ]
+mol $ call user.list
+>> Call 'user.list' with params: {} with meta: { '$repl': true }
+[2024-07-20T06:14:56.589Z] INFO  desktop-kaufcr7-9376/USER: handler is called
+>> Execution time:1ms
+>> Response:
+[ { id: 1, name: 'Subramanian' }, { id: 2, name: 'Murugan' } ]
+mol $ call user.list
+>> Call 'user.list' with params: {} with meta: { '$repl': true }
+[2024-07-20T06:14:59.203Z] INFO  desktop-kaufcr7-9376/USER: handler is called
+>> Execution time:5ms
+>> Response:
+[ { id: 1, name: 'Subramanian' }, { id: 2, name: 'Murugan' } ]
+mol $ call user.list
+>> Call 'user.list' with params: {} with meta: { '$repl': true }
+[2024-07-20T06:15:00.348Z] INFO  desktop-kaufcr7-9376/USER: handler is called
+>> Execution time:5ms
+>> Response:
+[ { id: 1, name: 'Subramanian' }, { id: 2, name: 'Murugan' } ]
+
+now you can notice, this method is called more number of times 
+
+Types of caching:
+.............................
+
+1.InMemory Caching
+   once the app is restarted , then all cache data will be lost but stores all cached
+data in "RAM".
+
+const broker = new ServiceBroker({
+    cacher: "Memory"
+});
+const broker = new ServiceBroker({
+    cacher: true
+});
+const { ServiceBroker } = require('moleculer')
+
+const broker = new ServiceBroker({
+    logger: "Console",
+    cacher: "Memory" //type of cache configuration
+})
+broker.createService({
+    name: 'user',
+    actions: {
+        list: {
+            //meta configurations
+            cache: true,
+            handler(ctx) {
+                this.logger.info('user service is called')
+                return [{
+                    id: 1, name: 'Subramanian'
+                },
+                {
+                    id: 2, name: 'Murugan'
+                }]
+            }
+        }
+    }
+})
+async function main() {
+    try {
+        await broker.start()
+        broker.repl()
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+main()
+
+Redis Cache:
+
+1.you have to start redis server.
+
+docker run --name some-redis -p 6379:6379  redis
+
+2.install redis driver.
+ npm install ioredis
+
+3.redis configuration
+const broker = new ServiceBroker({
+    logger: "Console",
+    cacher: "redis://localhost:6379"
+})
+
+Code:
+const { ServiceBroker } = require('moleculer')
+
+// const broker = new ServiceBroker({
+//     logger: "Console",
+//     cacher: "Memory"
+// })
+
+const broker = new ServiceBroker({
+    logger: "Console",
+    cacher: "redis://localhost:6379"
+})
+
+
+broker.createService({
+    name: 'user',
+    actions: {
+        list: {
+            //list method now is cached
+            cache: true,
+            handler(ctx) {
+                this.logger.info('handler is called')
+                return [{
+                    id: 1, name: 'Subramanian'
+                },
+                {
+                    id: 2, name: 'Murugan'
+                }]
+            }
+        }
+    }
+})
+
+async function main() {
+    try {
+        await broker.start()
+        broker.repl()
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+main()
+
+Testing:
+
+mol $ call user.list
+>> Call 'user.list' with params: {} with meta: { '$repl': true }
+[2024-07-20T06:34:25.583Z] INFO  desktop-kaufcr7-12256/USER: handler is called
+>> Execution time:7ms
+>> Response:
+[ { id: 1, name: 'Subramanian' }, { id: 2, name: 'Murugan' } ]
+mol $ call user.list
+>> Call 'user.list' with params: {} with meta: { '$repl': true }
+>> Execution time:4ms
+>> Response:
+[ { id: 1, name: 'Subramanian' }, { id: 2, name: 'Murugan' } ]
+mol $
+
+Verify against Redis Server
+
+redis-cli
+127.0.0.1:6379> keys *
+1) "MOL-user.list:"
+127.0.0.1:6379> GET MOL-user.list: 
+"[{\"id\":1,\"name\":\"Subramanian\"},{\"id\":2,\"name\":\"Murugan\"}]"
+127.0.0.1:6379> 
+
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+											Logger
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+Moleculer provides different logging configurations
+
+const { ServiceBroker } = require('moleculer')
+const ApiGateWay = require('moleculer-web')
+
+// const broker = new ServiceBroker({
+//     serializer: "JSON", // not necessary to set, because it is the default
+//     logger: 'Console'
+// })
+// const broker = new ServiceBroker({
+//     serializer: "JSON", // not necessary to set, because it is the default
+//     logger: 'File'
+// })
+
+// const broker = new ServiceBroker({
+//     serializer: "JSON", // not necessary to set, because it is the default
+//     logger: 'Pino'
+// })
+
+const broker = new ServiceBroker({
+    serializer: "JSON", // not necessary to set, because it is the default
+    logger: 'Bunyan'
+})
+
+broker.createService({
+    name: 'productservice',
+    actions: {
+        findAll: {
+            async handler(ctx) {
+                const products = await fetch('https://dummyjson.com/products')
+                const productsJson = await products.json()
+                return productsJson
+            }
+        },
+        findById: {
+            async handler(ctx) {
+                const id = Number(ctx.params.id)
+                const url = `https://dummyjson.com/products/${id}`
+                const response = await fetch(url)
+                const product = await response.json()
+                return product
+            }
+        }
+    }
+})
+
+broker.createService({
+    name: 'products',
+    actions: {
+        list: {
+            rest: "GET /",
+            async handler(ctx) {
+                const products = await ctx.call('productservice.findAll')
+                return products
+            }
+        },
+        get: {
+            rest: "GET /:id",
+            async handler(ctx) {
+                const { id } = ctx.params
+                const product = await ctx.call('productservice.findById', { id: id })
+                return product
+
+            }
+        },
+        create: {
+            rest: "POST /",
+            handler(ctx) {
+                const payload = ctx.params
+                // console.log(payload)
+                //    console.log(this.logger)
+                this.logger.info(payload)
+                return 'Post  Products'
+            }
+        },
+        update: {
+            rest: "PUT /:id",
+            handler(ctx) {
+                return 'Update all Products'
+            }
+        },
+        remove: {
+            rest: "DELETE /:id",
+            handler(ctx) {
+                return 'Remove  Products'
+            }
+        }
+    }
+})
+
+
+broker.createService({
+    name: 'ApiGateWay',
+    mixins: [ApiGateWay],
+    settings: {
+        routes: [
+            {
+                path: '/api',
+                aliases: {
+                    //custom end point configuration
+                },
+                autoAliases: true
+            }
+        ]
+    }
+})
+
+async function main() {
+    try {
+        await broker.start()
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+main()
+
+
+
+
+
+
+
+
